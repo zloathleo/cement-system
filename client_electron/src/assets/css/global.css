@@ -1,0 +1,143 @@
+html,
+body {
+    height: 100%;
+    overflow: hidden !important;
+}
+
+.color-primary {
+    background-color: #878f92 !important;
+}
+
+.color-primary-2 {
+    background-color: #e50112 !important;
+}
+
+.color-primary-3 {
+    background-color: #d3d3d3 !important;
+}
+
+.color-primary-4 {
+    background-color: #505050 !important;
+    color: #fff !important;
+}
+
+.color-primary-button {
+    background-color: #878f92 !important;
+    color: #fff !important;
+}
+
+.color-text-white {
+    color: #fff !important;
+}
+
+.card-bg-transparent {
+    background-color: transparent !important;
+}
+
+.card-content-table {
+    padding: 0rem;
+}
+
+.table-td-left {
+    border: 1px solid #000 !important;
+    width: 20%;
+    padding: 1rem !important;
+    font-weight: bold;
+}
+
+.table-td {
+    border: 1px solid #000 !important;
+    padding: 1rem !important;
+    font-weight: bold;
+}
+
+.card-header {
+    font-size: 1.6rem;
+    padding: 0.4rem 1rem;
+}
+
+/*主页面*/
+
+@media screen and (max-width: 1087px) {
+    .navbar {
+        align-items: stretch;
+        display: flex;
+    }
+    .navbar-brand {
+        align-items: stretch;
+        display: flex;
+        flex-shrink: 0;
+        min-height: 3.25rem;
+    }
+    .navbar-menu {
+        display: flex !important;
+        flex-grow: 1;
+        flex-shrink: 0;
+        align-items: stretch;
+        padding: 0 !important;
+        box-shadow: none !important;
+    }
+    .navbar-end {
+        justify-content: flex-end;
+        margin-left: auto;
+        align-items: stretch;
+        display: flex !important;
+    }
+    .navbar-item {
+        display: flex !important;
+        align-items: center;
+        line-height: 1.5;
+        padding: 0.5rem 0.75rem;
+        position: relative;
+    }
+}
+
+.block-header-end {
+    display: flex;
+    align-items: stretch;
+    float: right;
+    font-size: 12px;
+}
+
+.block-header-begin {
+    display: flex;
+    align-items: stretch;
+    float: left;
+}
+
+.block-title {
+    font-size: 18px;
+    font-weight: 600;
+    text-transform: uppercase;
+    line-height: 1.2;
+    padding-right: 2rem;
+}
+
+.table-count {
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem !important;
+}
+
+.table-search {
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem !important;
+}
+
+.table thead th {
+    padding: 12px 10px !important;
+}
+
+table td,
+table th {
+    vertical-align: middle !important;
+}
+
+.text-center {
+    text-align: center !important;
+    font-size: 12px;
+    text-transform: uppercase;
+}
+
+.pagination-list {
+    list-style: none !important;
+}

@@ -1,0 +1,22 @@
+{
+  "presets": [
+    [
+      "env",
+      {
+        "debug": true,
+        "useBuiltIns": true
+      }
+    ],
+    "stage-0"
+  ],
+  "comments": true,
+  "env": {
+    "test": {
+      "presets": [
+        "env",
+        "stage-2"
+      ]
+    }
+  },
+  "plugins": []
+}

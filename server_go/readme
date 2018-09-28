@@ -1,0 +1,2 @@
+打包命令
+go build -o safefire-cement-server.exe app.go

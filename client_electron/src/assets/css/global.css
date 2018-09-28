@@ -76,6 +76,7 @@ body {
         align-items: stretch;
         padding: 0 !important;
         box-shadow: none !important;
+        background-color: transparent !important;
     }
     .navbar-end {
         justify-content: flex-end;

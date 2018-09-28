@@ -62,7 +62,8 @@
 <style scoped lang="less">
 </style>
 
-<script>  
+<script>   
+
 export default {
     components: {
     },
@@ -70,7 +71,7 @@ export default {
         return {
         }
     },
-    mounted() {
+    mounted() { 
 
     },
     methods: {

@@ -64,7 +64,7 @@ export default {
     },
     mounted() {
         let _this = this;
-        setInterval(this.refresh, 1000);
+        // setInterval(this.refresh, 1000);
     },
     methods: {
         getValue(name) {

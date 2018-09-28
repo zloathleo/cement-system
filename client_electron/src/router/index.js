@@ -1,14 +1,20 @@
 import Vue from 'vue';
 import Router from 'vue-router';
+import globalvar from '../common/globalvar'
 
 Vue.use(Router);
+
+let landRouter = 'dashboard';
+if (globalvar.configMode) {
+  landRouter = 'testconfig';
+}
 
 export default new Router({
   routes: [
     {
       name: 'index',
       path: '/',
-      redirect: { name: 'dashboard' }
+      redirect: { name: landRouter }
     },
     {
       path: '/',

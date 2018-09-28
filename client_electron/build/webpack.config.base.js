@@ -15,8 +15,14 @@ const vuePkg = [
 
 module.exports = {
   entry: {
-    index: utils.resolve('src/index.js'), 
+    index: utils.resolve('src/index.js'),
     vue: vuePkg,
+  }, 
+  
+  target: "electron-renderer",
+  
+  node: {
+    fs: "empty"
   },
 
   output: {
@@ -88,7 +94,7 @@ module.exports = {
       {
         test: /(\.scss|\.sass)$/,
         exclude: /node_modules/,
-        use: ['style-loader', 'css-loader',   'sass-loader']
+        use: ['style-loader', 'css-loader', 'sass-loader']
       },
       // {
       //   test: /\.scss$/,
@@ -145,6 +151,11 @@ module.exports = {
     }),
 
     new VueLoaderPlugin(),
+
+    new CopyWebpackPlugin([{
+      from: utils.resolve('src/assets/html'),
+      to: utils.resolve('public')
+    }]),
 
     new CopyWebpackPlugin([{
       from: utils.resolve('src/assets/imgs'),

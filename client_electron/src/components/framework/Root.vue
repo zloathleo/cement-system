@@ -57,10 +57,6 @@ export default {
         this.$globalEventHub.$on("appLoading", function (value) {
             _this.isAppLoading = value;
         }); 
-
-        if (this.$globalvar.configMode) {
-            this.$router.replace({ name: "testconfig" });
-        }
     },
     methods: {
     }

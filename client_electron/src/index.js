@@ -26,6 +26,7 @@ Vue.use(Buefy, {
   defaultIconPack: 'mdi',
 });
 
+
 //vue内部常用
 let globalEventHub = new Vue();
 globalvar.GlobalEventHub = globalEventHub;
@@ -34,9 +35,27 @@ Vue.prototype.$globalEventHub = globalEventHub;
 Vue.prototype.$globalvar = globalvar;
 Vue.prototype.$stateMem = stateMem;
 
-new Vue({
-  el: '#app',
-  router,
-  render: h => h(App)
-});
+//electron
+try {
+  var ipcRenderer = require('electron').ipcRenderer;
+  ipcRenderer.once("electron.main.config", function (_evt, _appConfig) {
+    console.log("electron.main.config:", _appConfig);
+    globalvar.configMode = _appConfig.config_mode;
+
+    initUI();
+
+  });
+  ipcRenderer.send("electron.renderer.mainpage.loaded", "ok");
+} catch (ex) {
+  initUI();
+}
+
+function initUI() {
+  new Vue({
+    el: '#app',
+    router,
+    render: h => h(App)
+  });
+}
+
 

@@ -4,7 +4,8 @@ const electron = require('electron')
 const log = require("./log")
 
 const app = electron.app;
-const ipcMain = electron.ipcMain
+const ipcMain = electron.ipcMain;
+const globalShortcut = electron.globalShortcut;
 //var
 var loadingWindow;
 var mainWindow;
@@ -27,25 +28,43 @@ function showMain() {
         webPreferences: {
             nodeIntegration: true
         }
-    });
-    // mainWindow.maximize();
-    // mainWindow.webContents.openDevTools();
+    }); 
+    //监听页面完成情况
     mainWindow.loadURL(mainPage);
 
-}
+} 
 
 //进程间通讯监听
 function initIpc() {
     //主页面加载完成后再显示
-    ipcMain.once("electron.renderer.mainpage.loaded", function (event, arg) {
-        log.info("revi renderer message:", arg);
-
-        mainWindow.show();
-        mainWindow.maximize();
-        mainWindow.webContents.openDevTools();
-
+    ipcMain.on("electron.renderer.mainpage.loaded", function (event, arg) {
+        log.info("mainpage is loaded , show main window"); 
+        if (!mainWindow.isVisible()) {
+            //第一次启动
+            mainWindow.show();
+            mainWindow.maximize();
+            // mainWindow.webContents.openDevTools();
+            initShortcut();
+        }
+        if (loadingWindow && !loadingWindow.isDestroyed()) {
+            loadingWindow.destroy();
+        }
+        
         mainWindow.webContents.send('electron.main.config', appConfig);
-        loadingWindow.close();
+      
+    });
+}
+
+//初始化快捷键
+function initShortcut() {
+    globalShortcut.register("Ctrl+F5", function () {
+        mainWindow.reload();
+    });
+    globalShortcut.register("Ctrl+F11", function () {
+        mainWindow.setFullScreen(!mainWindow.isFullScreen());
+    });
+    globalShortcut.register("Ctrl+F12", function () {
+        mainWindow.webContents.openDevTools();
     });
 }
 
@@ -73,31 +92,12 @@ function showLoading() {
         loadingWindow.show();
         readConfig();
     });
-
+    loadingWindow.on("closed", function () {
+        loadingWindow = null;
+    });
 }
 
-//////////////////////
-///common
-//////////////////////
-function appExit() {
-    app.quit();
-}
 
-// Quit when all windows are closed.
-app.on("window-all-closed", function () {
-    appExit();
-});
-
-//退出
-app.on("will-quit", function () {
-    // globalShortcut.unregisterAll();
-})
-
-app.on("activate", function () {
-    // if (mainWindow === null) {
-    //     readyInit();
-    // }
-});
 
 
 
@@ -153,17 +153,15 @@ function parseConfigContent(fileContents) {
                 sendLoadMessage("loaded config success...", 30);
 
                 setTimeout(function () {
-                    // let ip = _config.device_interface_ip;
-                    // log.info(ip);
                     sendLoadMessage("starting app... ", 80);
 
                     //自身需要时间
-                    showMain(); 
-                }, 1000);
+                    showMain();
+                }, 500);
             } else {
                 //show error
             }
-        }, 1000);
+        }, 500);
     }
 }
 

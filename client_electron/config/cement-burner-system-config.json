@@ -1,4 +1,5 @@
 {
     "config_mode": false,
-    "device_interface_ip": "localhost"
+    "fetch_server_host": "localhost",
+    "fetch_server_port": "8081"
 }

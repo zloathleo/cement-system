@@ -36,6 +36,11 @@
 </template>
 
 <style scoped lang="less">
+a:hover {
+    background-color: #333 !important; 
+     color: #fff !important; 
+}
+
 .dropdown-item {
   line-height: 1.3;
   padding: 1rem;

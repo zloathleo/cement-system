@@ -17,6 +17,13 @@ export default {
         }
     },
 
+    toastInfo: function (_message) {
+        this.GlobalEventHub.$emit("toast.show", {
+            type: "info",
+            message: _message
+        });
+    },
+
     toastSuccess: function (_vue, _message) {
         _vue.$toast.open({
             queue: false,

@@ -5,26 +5,26 @@
         <transition name="slide-fade">
             <div v-show="isShowDraw" class="drawer-content color-primary-4">
                 <a class="dropdown-item color-text-white" @click="clickMenu('dashboard')">
-                    <span class="icon" style="padding-bottom: 1.5rem;"> 
-                        <img src="assets/img/dashboard.png">
+                    <span class="icon exicon">
+                        <img class="icon-image" src="assets/img/dashboard.png">
                     </span>
                     <h3> Burner<br> Overview </h3>
                 </a>
                 <a class="dropdown-item color-text-white" @click="clickMenu('tpcontrol')">
-                    <span class="icon" style="padding-bottom: 1.5rem;"> 
-                        <img src="assets/img/dashboard.png">
+                    <span class="icon exicon">
+                        <img class="icon-image" src="assets/img/control.png">
                     </span>
-                    <h3> Temperature<br> control </h3>
+                    <h3> Device<br> control </h3>
                 </a>
                 <a class="dropdown-item color-text-white" @click="clickMenu('settings')">
-                    <span class="icon" style="padding-bottom: 1.5rem;">
-                        <img src="assets/img/settings.png">
+                    <span class="icon exicon">
+                        <img class="icon-image" src="assets/img/settings.png">
                     </span>
                     <h3> Setting </h3>
                 </a>
                 <a class="dropdown-item color-text-white" @click="clickMenu('alarm')">
-                    <span class="icon" style="padding-bottom: 1.5rem;">
-                        <img src="assets/img/alarm.png">
+                    <span class="icon exicon">
+                        <img class="icon-image" src="assets/img/alarm.png">
                     </span>
                     <h3> Alarms </h3>
                 </a>
@@ -36,8 +36,23 @@
 </template>
 
 <style scoped lang="less">
+a:hover {
+  background-color: #333 !important;
+  color: #fff !important;
+}
+
+.exicon {
+  padding-bottom: 1.5rem;
+  height: 2rem;
+  width: 2rem;
+}
+
+.icon-image {
+  margin-top: 10px;
+}
+
 .dropdown-item {
-  line-height: 1.3;
+  line-height: 1.2;
   padding: 1rem;
   text-align: center;
 }

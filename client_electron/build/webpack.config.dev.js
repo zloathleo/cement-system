@@ -6,12 +6,12 @@ const baseConfig = require('./webpack.config.base')
 // const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = merge(baseConfig, {
-  mode: 'development',
+  mode: 'development', 
 
   module: {
-  
+
   },
 
-  plugins: [  
+  plugins: [
   ]
 })

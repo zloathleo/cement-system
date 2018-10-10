@@ -1,0 +1,27 @@
+{
+    "config_mode": true,
+    "fetch_server_host": "localhost",
+    "fetch_server_port": "8081",
+    "point_scheme": {
+        "4_40001": {
+            "desc": "吹扫风压力",
+            "range_max": "1000",
+            "range_min": "0"
+        },
+        "4_40002": {
+            "desc": "冷却风压力",
+            "range_max": "1000",
+            "range_min": "0"
+        },
+        "4_40003": {
+            "desc": "A镜头温度",
+            "range_max": "200",
+            "range_min": "0"
+        },
+        "4_40004": {
+            "desc": "B镜头温度",
+            "range_max": "200",
+            "range_min": "0"
+        }
+    }
+}

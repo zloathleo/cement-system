@@ -1,14 +1,15 @@
 import Vue from 'vue';
 import Router from 'vue-router';
+import globalvar from '../common/globalvar'
 
-Vue.use(Router);
+Vue.use(Router); 
 
 export default new Router({
   routes: [
     {
-      name: 'index',
+      name: 'landing',
       path: '/',
-      redirect: { name: 'dashboard' }
+      component: resolve => require(['../components/framework/InitLoading.vue'], resolve),
     },
     {
       path: '/',

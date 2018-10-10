@@ -14,6 +14,7 @@
                 </transition>
             </div>
         </main>
+        <Notification />
         <Footer />
     </div>
 
@@ -44,8 +45,9 @@
 import Toolbar from './Toolbar.vue';
 import Drawer from './Drawer.vue';
 import Footer from './Footer.vue';
+import Notification from './Notification.vue';
 export default {
-    components: { Toolbar, Drawer, Footer },
+    components: { Toolbar, Drawer, Footer, Notification },
 
     data() {
         return {
@@ -56,11 +58,7 @@ export default {
         let _this = this;
         this.$globalEventHub.$on("appLoading", function (value) {
             _this.isAppLoading = value;
-        }); 
-
-        if (this.$globalvar.configMode) {
-            this.$router.replace({ name: "testconfig" });
-        }
+        });
     },
     methods: {
     }

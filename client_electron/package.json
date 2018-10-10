@@ -2,11 +2,11 @@
   "name": "cement-burner-system",
   "version": "1.0.0",
   "description": "水泥回转窑燃烧温度场系统UI",
-  "main": "electron-main.js",
+  "main": "electron/electron-app.js",
   "build": {
     "appId": "com.safefire.cement",
-    "productName": "safefire-cement",
-    "copyright": "Copyright © 2018 safefire",
+    "productName": "cement-burner-system",
+    "copyright": "Copyright © 2018 SafeFire",
     "directories": {
       "output": "release"
     },
@@ -14,6 +14,7 @@
       "./**/*"
     ],
     "win": {
+      "target": "nsis",
       "icon": "./build/resources/logo256.png"
     }
   },
@@ -32,6 +33,7 @@
   "dependencies": {
     "buefy": "^0.6.6",
     "echarts": "^4.2.0-rc.1",
+    "electron-log": "^2.2.17",
     "qs": "^6.5.2",
     "store": "^2.0.12",
     "vue": "^2.5.16",

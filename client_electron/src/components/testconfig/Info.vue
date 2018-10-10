@@ -40,8 +40,8 @@
                         <td class="table-td">{{getValue('1_00005')}}</td>
                         <td class="table-td">B探头退到位</td>
                         <td class="table-td">{{getValue('1_00006')}}</td>
-                        <td class="table-td">--</td>
-                        <td class="table-td">--</td>
+                        <td class="table-td"> </td>
+                        <td class="table-td"> </td>
                     </tr>
                 </tbody>
             </table>
@@ -64,20 +64,19 @@ export default {
     },
     mounted() {
         let _this = this;
-        setInterval(this.refresh, 1000);
+        // setInterval(this.refresh, 1000);
     },
     methods: {
         getValue(name) {
             let v = this.dataMap[name];
-            if (v) {
+            if (v == undefined) {
+                return "--"
+            } else {
                 if (Number.isInteger(v)) {
                     return v;
                 } else {
                     return v.value.toFixed(2);
                 }
-            }
-            else {
-                return "-";
             }
         },
         refresh() {
@@ -96,7 +95,7 @@ export default {
 
                 _this.$stateMem.commit("setServerTimestamp", _data.timestamp);
 
-         
+
             }).catch(function (err) {
                 console.error(err);
                 // reject(err);

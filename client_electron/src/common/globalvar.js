@@ -2,73 +2,12 @@ export default {
     appName: "后台管理",
     GlobalEventHub: undefined,
 
-
     //配置模式 直接查看数据和控制信号
-    configMode: true,
+    configMode: false,
 
     // fetchServerHostURL: "",
     fetchServerHostURL: "http://localhost:8080",
 
-    adminMenuItems: [
-        {
-            key: "group",
-            display: "分组管理",
-            icon: "account-group",
-            desc: ""
-        },
-        {
-            key: "account",
-            display: "用户管理",
-            icon: "account",
-            desc: ""
-        }
-    ],
-
-    operatorMenuItems: [
-        {
-            key: "device",
-            display: "Device",
-            icon: "account-group",
-            desc: ""
-        },
-        {
-            key: "page",
-            display: "Page",
-            icon: "account",
-            desc: ""
-        },
-        {
-            key: "resource",
-            display: "Resource",
-            icon: "account",
-            desc: ""
-        }
-        ,
-        {
-            key: "qr",
-            display: "Qr",
-            icon: "account",
-            desc: ""
-        },
-        {
-            key: "message",
-            display: "Message",
-            icon: "account",
-            desc: ""
-        },
-        {
-            key: "live",
-            display: "Live",
-            icon: "account",
-            desc: ""
-        },
-        {
-            key: "publish",
-            display: "Publish",
-            icon: "account",
-            desc: ""
-        }
-    ],
 
     parseDateTime: function (_long) {
         if (_long) {
@@ -78,14 +17,11 @@ export default {
         }
     },
 
-    parseMsgState: function (_state) {
-        if (_state === 1) {
-            return "正在播放";
-        } else if (_state === -1) {
-            return "已播放";
-        } else {
-            return "准备播放";
-        }
+    toastInfo: function (_message) {
+        this.GlobalEventHub.$emit("toast.show", {
+            type: "info",
+            message: _message
+        });
     },
 
     toastSuccess: function (_vue, _message) {
@@ -118,6 +54,5 @@ export default {
             return error;
         }
     },
-
 
 };

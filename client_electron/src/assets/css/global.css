@@ -2,6 +2,12 @@ html,
 body {
     height: 100%;
     overflow: hidden !important;
+    margin: 0px;
+    font-family: sans-serif;
+}
+
+a:hover {
+    color: #333 !important; 
 }
 
 .color-primary {
@@ -76,6 +82,7 @@ body {
         align-items: stretch;
         padding: 0 !important;
         box-shadow: none !important;
+        background-color: transparent !important;
     }
     .navbar-end {
         justify-content: flex-end;

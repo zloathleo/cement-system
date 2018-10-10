@@ -1,11 +1,12 @@
 <template>
   <router-view />
-</template>
+  <!-- <div>123</div> -->
+</template> 
 
- 
+<script>    
 
-<script>   
 export default {
-
+  mounted() {
+  }
 }
 </script>

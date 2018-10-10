@@ -2,9 +2,9 @@ package tiff
 
 import (
 	"errors"
-	"log"
 	"os"
 	"path/filepath"
+	"github.com/zloathleo/go-httpserver/common/logger"
 )
 
 const (
@@ -26,7 +26,7 @@ func WalkTiffOne(index int, pixel int, _calc string) ([]int, int, int) {
 		}
 		if filepath.Ext(path) == ".tif" {
 			if index == walkIndex {
-				log.Println(path)
+				logger.Println(path)
 				selectedFileData, w, h = ReadTile(path, pixel, _calc)
 				return fileFound
 			}
@@ -80,7 +80,7 @@ func WalkTiffPeriod(period int, pixel int, _calc string) ([]int, int, int) {
 				}
 			}
 
-			log.Println(hots)
+			logger.Println(hots)
 		}
 		return nil
 	})

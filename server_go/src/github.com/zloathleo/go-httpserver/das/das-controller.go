@@ -6,30 +6,26 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"log"
 	"net/http"
+	"strings"
+	"github.com/zloathleo/go-httpserver/common/logger"
 )
-
-type PushDas struct {
-	Rows      []Das `json:"rows"`
-	TimeStamp int64 `json:"timestamp"`
-}
-
-type Das struct {
-	PointName string  `json:"name"`
-	Value     float64 `json:"value"`
-	TimeStamp int64   `json:"timestamp"`
-}
 
 func InitDashController(dasGroup *gin.RouterGroup) {
 
-	//客户端请求实时数据
-	dasGroup.GET("/data", func(c *gin.Context) {
+	//客户端请求页面数据
+	dasGroup.GET("/page", func(c *gin.Context) {
 		//dashboard,control
-		_page := c.DefaultQuery("page", "control")
-		c.JSON(http.StatusBadRequest, gin.H{
+		_page := c.DefaultQuery("name", "control")
+		var pageData *PushDas
+		if strings.EqualFold(_page,"dashboard"){
+			pageData = renderPageDashboard()
+		}else if strings.EqualFold(_page,"control"){
+			pageData = renderPageControl()
+		}
+		c.JSON(http.StatusOK, gin.H{
 			"code": 1,
-			"page": _page,
+			"rows": pageData.Rows,
 		})
 		return
 	})
@@ -37,7 +33,7 @@ func InitDashController(dasGroup *gin.RouterGroup) {
 	//客户端请求控制指令
 	dasGroup.POST("/control", func(c *gin.Context) {
 		dataJson := c.PostForm("content")
-		log.Printf("control data %v", dataJson)
+		logger.Printf("control data %v", dataJson)
 		if len(dataJson) < 5 {
 			c.JSON(http.StatusBadRequest, gin.H{
 				"code": -1,
@@ -55,7 +51,7 @@ func InitDashController(dasGroup *gin.RouterGroup) {
 			})
 			return
 		} else {
-			log.Println(err)
+			logger.Println(err)
 			c.JSON(http.StatusBadRequest, gin.H{
 				"code": -1,
 				"msg":  fmt.Sprintf("param 'content' [%v] is err [%v]", dataJson, err),
@@ -67,7 +63,7 @@ func InitDashController(dasGroup *gin.RouterGroup) {
 	//下位机上传数据
 	dasGroup.POST("/push", func(c *gin.Context) {
 		dataJson := c.PostForm("content")
-		log.Printf("push data %v", dataJson)
+		//logger.Printf("push data %v", dataJson)
 		if len(dataJson) < 5 {
 			c.JSON(http.StatusBadRequest, gin.H{
 				"code": -1,
@@ -85,7 +81,7 @@ func InitDashController(dasGroup *gin.RouterGroup) {
 			})
 			return
 		} else {
-			log.Println(err)
+			logger.Println(err)
 			c.JSON(http.StatusBadRequest, gin.H{
 				"code": -1,
 				"msg":  fmt.Sprintf("param 'content' [%v] is err [%v]", dataJson, err),

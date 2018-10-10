@@ -3,9 +3,9 @@ package tiff
 import (
 	"bufio"
 	"golang.org/x/image/tiff"
-	"log"
 	"math"
 	"os"
+	"github.com/zloathleo/go-httpserver/common/logger"
 )
 
 const (
@@ -42,7 +42,7 @@ func fetchTileData(filePath string, tilePixel int) ([][]int, int, int) {
 	WW := tilePixel * tileWCount
 	HH := tilePixel * tileHCount
 
-	log.Println("tilePixelCount:", tilePixelCount)
+	logger.Println("tilePixelCount:", tilePixelCount)
 
 	//var tileData [tileCount][tilePixelCount]int
 	var tileData = make([][]int, tileCount)
@@ -62,31 +62,31 @@ func fetchTileData(filePath string, tilePixel int) ([][]int, int, int) {
 			//tx ty tile内的坐标
 			tx := i % tilePixel
 			ty := j % tilePixel
-			//log.Println("tile内的坐标:", tx, ty)
+			//logger.Println("tile内的坐标:", tx, ty)
 
 			//rData[i * H + j]
 			rIndex := j*WW + i
 			v := rData[rIndex]
-			//log.Println("原始坐标:", rIndex)
+			//logger.Println("原始坐标:", rIndex)
 
 			//tile序号
 			iIndex := iy*tileWCount + ix
 			//tileArray := tileData[iIndex]
-			//log.Println("tile序号:", iIndex)
+			//logger.Println("tile序号:", iIndex)
 
 			//排除2这种异常值
 			if v > 100 {
 				//tile内序号
 				tIndex := ty*tilePixel + tx
 				//tileDatas := tileData[iIndex]
-				//log.Println("值信息:", tx, ty, tileDatas, v)
+				//logger.Println("值信息:", tx, ty, tileDatas, v)
 				tileData[iIndex][tIndex] = v
-				//log.Println("值信息:", tx, ty, tIndex, v)
-				//log.Println("-------------------------------------------")
+				//logger.Println("值信息:", tx, ty, tIndex, v)
+				//logger.Println("-------------------------------------------")
 			}
 		}
 	}
-	//log.Println(tileData)
+	//logger.Println(tileData)
 	return tileData, tileWCount, tileHCount
 }
 

@@ -3,17 +3,16 @@
 package das
 
 import (
-	"log"
 	"net/http"
 	"net/url"
+	"github.com/zloathleo/go-httpserver/common/logger"
 )
 
 //底层接口通讯软件ip和端口
-const DDIIp = "localhost"
-const DDIPort = "8080"
+var dasUrl = ""
 
-func sendData2DDI(dataJson string) error {
-	resp, err := http.PostForm("http://"+DDIIp+":"+DDIPort+"/control",
+func sendData2DDI(dataJson string) (*http.Response,error) {
+	resp, err := http.PostForm(dasUrl+"/control",
 		url.Values{"content": {dataJson}})
 	defer func() {
 		if resp != nil && resp.Body != nil {
@@ -22,10 +21,10 @@ func sendData2DDI(dataJson string) error {
 	}()
 
 	if err != nil {
-		log.Print(err)
-		return err
+		logger.Println(err)
+		return resp,err
 	} else {
-		return nil
+		return resp,nil
 	}
 
 }

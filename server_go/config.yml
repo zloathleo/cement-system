@@ -1,0 +1,16 @@
+app:
+    name: center-server
+    port: 8088
+
+das:
+    host: localhost
+    port: 8080
+
+point:
+- name: 4_40001
+  #电流4-20 转换成压力0-20
+  conversion: (x - 4) * (20 - 0)/(20-4)
+- name: 4_40002
+  #电流4-20 转换成压力0-20
+  conversion: (x - 4) * (20 - 0)/(20-4)
+

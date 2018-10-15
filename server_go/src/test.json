@@ -1,71 +1,69 @@
 {
-    "timestamp":111,
-    "rows":[
+    "timestamp": 111,
+    "rows": [
         {
             "name": "1_00001",
-            "value": 1,
+            "value": 0,
             "timestamp": 102222001
         },
         {
             "name": "1_00002",
-            "value": 2,
+            "value": 1,
             "timestamp": 102222002
         },
         {
             "name": "4_40001",
-            "value": 3,
+            "value": 16,
             "timestamp": 102222002
         },
         {
             "name": "4_40002",
-            "value": 4,
+            "value": 6.3,
             "timestamp": 102222002
         },
         {
             "name": "1_00008",
-            "value": 5,
+            "value": 1,
             "timestamp": 102222002
         },
-    
         {
             "name": "4_40003",
-            "value": 6,
+            "value": 44,
             "timestamp": 102222002
         },
         {
             "name": "5_40013",
-            "value": 7,
+            "value": 66,
             "timestamp": 102222002
         },
         {
             "name": "1_00004",
-            "value": 8,
+            "value": 0,
             "timestamp": 102222002
         },
         {
             "name": "1_00005",
-            "value": 9,
+            "value": 0,
             "timestamp": 102222002
         },
-    
         {
             "name": "4_40004",
-            "value": 10,
+            "value": 39,
             "timestamp": 102222002
         },
         {
             "name": "5_40083",
-            "value": 11,
+            "value": 39,
             "timestamp": 102222002
         },
         {
             "name": "1_00006",
-            "value": 12,
+            "value": 0,
             "timestamp": 102222002
         },
         {
             "name": "1_00007",
-            "value": 13,
+            "value": 1,
             "timestamp": 102222002
         }
     ]

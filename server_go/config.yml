@@ -1,6 +1,7 @@
 app:
     name: center-server
     port: 8088
+    autologic: true
 
 das:
     host: localhost
@@ -9,8 +10,29 @@ das:
 point:
 - name: 4_40001
   #电流4-20 转换成压力0-20
-  conversion: (x - 4) * (20 - 0)/(20-4)
+  #  conversion: (x - 4) * (20 - 0)/(20-4)
+  conversion: 6
 - name: 4_40002
-  #电流4-20 转换成压力0-20
-  conversion: (x - 4) * (20 - 0)/(20-4)
+  # 电流4-20 转换成压力0-20
+  # conversion: (x - 4) * (20 - 0)/(20-4)
+  conversion: 0.2
 
+cmd:
+- name: 4_40001
+  #吹扫风合法值>=5
+  conversion: x >= 5
+- name: 4_40002
+  #冷却风合法值
+  conversion: x >= 0.1 && x <= 0.35
+- name: 4_40003
+  #镜头A温度<=55
+  conversion: x <= 55
+- name: 5_40013
+  #探头A内部温度<=55
+  conversion: x <= 55
+- name: 4_40004
+  #镜头B温度<=55
+  conversion: x <= 55
+- name: 5_40083
+  #探头B内部温度<=55
+  conversion: x <= 55

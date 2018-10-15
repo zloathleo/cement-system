@@ -39,6 +39,7 @@ func main() {
 		WriteTimeout:   30 * time.Second,
 		MaxHeaderBytes: 1 << 20,
 	}
+	logger.Printf("%v http will listen at %d.",config.AppConfig.App.Name,config.AppConfig.App.Port)
 	s.ListenAndServe()
-	logger.Printf("%v http listen at %d.",config.AppConfig.App.Name,config.AppConfig.App.Port)
+
 }

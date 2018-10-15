@@ -9,7 +9,7 @@ import (
 var mw io.Writer
 
 func Init(){
-	log.SetFlags(log.Ldate | log.Ltime)
+	log.SetFlags(log.Ldate | log.Ltime | log.Lshortfile )
 	f, err := os.OpenFile("logfile.log", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 	if err != nil {
 		log.Fatalf("log file open error : %v", err)

@@ -1,0 +1,18 @@
+{
+    "go.buildOnSave": "workspace",
+    "go.lintOnSave": "package",
+    "go.vetOnSave": "package",
+    "go.buildTags": "",
+    "go.buildFlags": [],
+    "go.lintFlags": [],
+    "go.vetFlags": [],
+    "go.coverOnSave": false,
+    "go.useCodeSnippetsOnFunctionSuggest": false,
+    "go.formatOnSave": false,
+    "go.formatTool": "goreturns",
+    "go.goroot": "C:\\Go",
+    "go.gopath": "D:\\GoPath",
+    "go.gocodeAutoBuild": false,
+    "terminal.integrated.rendererType": "dom",
+    "workbench.startupEditor": "newUntitledFile"
+}

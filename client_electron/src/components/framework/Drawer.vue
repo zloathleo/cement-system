@@ -16,6 +16,12 @@
                     </span>
                     <h3> Device<br> control </h3>
                 </a>
+                 <a class="dropdown-item color-text-white" @click="clickMenu('trend')">
+                    <span class="icon exicon">
+                        <img class="icon-image" src="assets/img/trend.png">
+                    </span>
+                    <h3> Trend<br> Analysis </h3>
+                </a>
                 <a class="dropdown-item color-text-white" @click="clickMenu('settings')">
                     <span class="icon exicon">
                         <img class="icon-image" src="assets/img/settings.png">

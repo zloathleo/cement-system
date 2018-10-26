@@ -6,12 +6,12 @@
 </style>
 
 <script>  
-var echarts = require('echarts/lib/echarts');
-// 引入chart
-require('echarts/lib/chart/radar');
-// 引入提示框和标题组件 
-require('echarts/lib/component/title');
-require('echarts/lib/component/tooltip');
+// var echarts = require('echarts/lib/echarts');
+// // 引入chart
+// require('echarts/lib/chart/radar');
+// // 引入提示框和标题组件 
+// require('echarts/lib/component/title');
+// require('echarts/lib/component/tooltip');
 export default {
     components: {
     },
@@ -26,7 +26,6 @@ export default {
     },
     mounted() {
         this._init_chart();
-        let _this = this;
     },
     methods: {
         refreshData() {
@@ -41,6 +40,18 @@ export default {
                 width: _width,
                 height: _width / 1.334
             });
+
+            let _this = this;
+            this.chart.on('finished', function () {
+
+                let chartDom = _this.$refs.radarChart;
+                // chartDom.style.margin = 'auto';
+
+                chartDom.style.setProperty('margin', 'auto', 'important');
+                chartDom.parentNode.style.setProperty('margin', 'auto', 'important');
+                console.log("chartDom.parentNode.style.margin:", chartDom.style.margin);
+            });
+
             this.chart.setOption(this.chartOption);
             this.refreshData();
         },
@@ -81,7 +92,7 @@ export default {
                 [46, 5, 49, 0.28, 10, 6, 31]
             ];
 
-           
+
 
             var lineStyle = {
                 normal: {
@@ -92,17 +103,17 @@ export default {
 
 
             return {
-
+                animation: false,
                 title: {
                     show: false
-                }, 
+                },
                 radar: {
                     indicator: [
                         { name: '1号区域', max: 300 },
                         { name: '2号区域', max: 250 },
                         { name: '3号区域', max: 300 },
                         { name: '4号区域', max: 5 },
-                        { name: '5号区域', max: 200 }, 
+                        { name: '5号区域', max: 200 },
                     ],
                     shape: 'circle',
                     splitNumber: 5,
@@ -147,7 +158,7 @@ export default {
                             }
                         }
                     },
-                     
+
                 ]
 
             }

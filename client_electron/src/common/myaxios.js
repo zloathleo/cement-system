@@ -49,10 +49,7 @@ axios.interceptors.response.use(function (response) {
     if (!error.config.hiddenLoading) {
         globalvar.GlobalEventHub.$emit('appLoading', false);
     }
-    return Promise.reject(error);
-
-
-
+    return Promise.reject(error); 
 });
 
 //响应拦截器即异常处理

@@ -7,8 +7,8 @@
         <b-loading :is-full-page="true" :active.sync="isAppLoading"></b-loading>
         <Drawer />
 
-        <main class="main-container color-primary-3">
-            <div class="content">
+        <main class="main-container color-primary-3" style="padding-bottom: 4rem; margin-bottom: 4rem;">
+            <div class="content main-content" style="height: 100%;overflow-y: auto;">
                 <transition name="fade">
                     <router-view></router-view>
                 </transition>
@@ -37,6 +37,20 @@
 .fade-leave-to {
   transform: translateY(300px);
   opacity: 0;
+}
+
+.main-content::-webkit-scrollbar-track {
+  border-radius: 5px;
+  background-color: #f5f5f5;
+}
+.main-content::-webkit-scrollbar {
+  width: 6px;
+  background-color: #f5f5f5;
+}
+
+.main-content::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0.6);
 }
 </style>
 

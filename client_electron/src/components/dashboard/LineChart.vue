@@ -6,98 +6,153 @@
 </style>
 
 <script>  
-var echarts = require('echarts/lib/echarts');
-// 引入chart
-require('echarts/lib/chart/line');
-// 引入提示框和标题组件 
-require('echarts/lib/component/title');
-require('echarts/lib/component/tooltip');
+// var echarts = require('echarts/lib/echarts');
+// // 引入chart
+// require('echarts/lib/chart/line');
+// // 引入提示框和标题组件 
+// require('echarts/lib/component/title');
+// require('echarts/lib/component/tooltip');
 export default {
     components: {
+
     },
     props: {
 
     },
     data() {
+        let _linechartConfig = this.$globalvar.dashboard_linechart;
+        let pnNameArray = _linechartConfig.series.map(function (_item) {
+            return _item.pn;
+        });
+
         return {
+            pointNames: pnNameArray.join(","),
             chart: undefined,
-            chartOption: this.getOption(),
+            chartOption: this.getOption(_linechartConfig),
         }
     },
     mounted() {
         this._init_chart();
-        let _this = this;
+
+    },
+    destroyed() {
+        if (this.timer) {
+            clearInterval(this.timer);
+        }
     },
     methods: {
-        refreshData() {
+        initTimer() {
+            let _this = this;
+            this.timer = setInterval(function () {
+                let _url = '/realtime?points=' + _this.pointNames + '&dur=180';
+                _this.$myaxios.get(_url, { timeout: 1000, 'hiddenLoading': true }).then(function (response) {
+                    let _data = response.data;
+                    _this.refreshRealtime(_data)
+                }).catch(function (err) {
+                    console.error(err);
+                });
+            }, 1000);
+        },
+        refreshRealtime(_data) {
+            let _this = this;
+            let _chartOptioin = _this.chart.getOption();
+            _chartOptioin.series.forEach(seriesItem => {
+                var data0 = seriesItem.data;
+                data0.shift();
+                data0.push(Math.round(Math.random() * 1000));
+            });
 
+
+            let axisData = new Date();
+            let dateString = axisData.Format("yyyy-MM-dd HH:mm:ss");
+            console.log("dateString:", dateString);
+
+            _chartOptioin.xAxis[0].data.shift();
+            _chartOptioin.xAxis[0].data.push(dateString);
+
+            _this.chart.setOption(_chartOptioin);
+        },
+        initChartData() {
+            let _this = this;
+            let _url = '/his-chart?points=' + this.pointNames + '&&dur=180';
+            _this.$myaxios.get(_url, { timeout: 2000, 'hiddenLoading': true }).then(function (response) {
+                let _data = response.data;
+                _this.renderJson(_data);
+                _this.initTimer();
+            }).catch(function (err) {
+                console.error(err);
+            });
+        },
+
+        renderJson(_json) {
+            let _serise = _json.series;
+
+            let _linechartConfig = this.$globalvar.dashboard_linechart;
+            let config_series = _linechartConfig.series.map(function (_item) {
+                return {
+                    name: _item.name,
+                    pn: _item.pn,
+                    yAxisIndex: 0,
+                    type: 'line',
+                    smooth: true,
+                    yAxisIndex: _item.yAxisIndex,
+                    data: _serise[_item.pn]
+                }
+            });
+
+            this.chart.setOption({
+                xAxis: {
+                    type: 'category',
+                    boundaryGap: false,
+                    axisLabel: { 
+                        interval: 4, 
+                        rotate: 60
+                    }, 
+                    data: _json.xAxis
+                },
+                series: config_series
+            });
         },
 
         _init_chart() {
             let chartDom = this.$refs.lineChart;
-            let _width = 800;
-
+            let _width = document.body.clientWidth - 130;
+            let _height = document.body.clientHeight * 0.5;
             this.chart = echarts.init(chartDom, undefined, {
                 width: _width,
-                height: 280
+                height: _height
             });
             this.chart.setOption(this.chartOption);
-            this.refreshData();
+            this.initChartData();
         },
 
-        getOption() {
+        getOption(_linechartConfig) {
+            let legendNameArray = _linechartConfig.series.map(function (_item) {
+                return _item.name;
+            });
+
             return {
                 title: {
                     show: false
                 },
+                animation:false,
+                legend: {
+                    data: legendNameArray,
+                },
                 tooltip: {
                     trigger: 'axis'
-                }, 
+                },
                 grid: {
                     left: '3%',
-                    right: '3%', 
+                    right: '3%',
                     containLabel: true
-                }, 
+                },
                 xAxis: {
-                    type: 'category',
+                    type: 'value',
                     boundaryGap: false,
-                    data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
                 },
-                yAxis: {
-                    type: 'value'
-                },
-                series: [
-                    {
-                        name: '区域1',
-                        type: 'line',
-                        stack: '总量',
-                        data: [120, 132, 101, 134, 90, 230, 210]
-                    },
-                    {
-                        name: '区域2',
-                        type: 'line',
-                        stack: '总量',
-                        data: [220, 182, 191, 234, 290, 330, 310]
-                    },
-                    {
-                        name: '区域3',
-                        type: 'line',
-                        stack: '总量',
-                        data: [150, 232, 201, 154, 190, 330, 410]
-                    },
-                    {
-                        name: '区域4',
-                        type: 'line',
-                        stack: '总量',
-                        data: [320, 332, 301, 334, 390, 330, 320]
-                    },
-                    {
-                        name: '区域5',
-                        type: 'line',
-                        stack: '总量',
-                        data: [820, 932, 901, 934, 1290, 1330, 1320]
-                    }
-                ]
+                yAxis: _linechartConfig.yAxis
+
             }
         }
     }

@@ -3,7 +3,7 @@
     <footer class="footer color-primary-3" style="border-top: 5px solid #e50112;display: flex;">
 
         <div style="  font-weight: bold; font-size: 12px;">
-            {{$stateMem.state.serverTimestamp == 0 ? 'connect fault!!': $globalvar.parseDateTime($stateMem.state.serverTimestamp)}}
+            {{serverTimestamp}}
         </div>
         <div style="margin-left: auto;    font-weight: bold; font-size: 12px;">
             Safe-Fire Inc.
@@ -30,5 +30,12 @@ export default {
         return {
         }
     },
+    computed: { 
+        serverTimestamp: function () { 
+            let t = this.$stateMem.state.serverTimestamp;
+            console.log(t);
+            return t == 0 ? 'connect fault!!': this.$globalvar.parseDateTime(t);
+        }
+    }
 }
 </script>

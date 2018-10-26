@@ -26,10 +26,18 @@
 
     <div class="columns">
       <div class="column">
-        <div class="card card-bg-transparent">
+        <div class="card card-bg-transparent" style="margin-bottom: 1rem;">
           <div class="card-header color-primary-4">
-            Temperature History
+            <div style="flex-grow: 1;color: #fff;">
+              Temperature History
+            </div>
+            <a class="card-header-icon" aria-label="more options">
+              <span class="icon">
+                <i class="mdi mdi-chart-line color-text-white"></i>
+              </span>
+            </a>
           </div>
+
           <div class="card-content">
             <LineChart />
           </div>

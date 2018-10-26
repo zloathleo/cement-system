@@ -2,6 +2,7 @@
 
     <div class="card card-bg-transparent" style="box-shadow: none;padding-bottom: 2rem;">
         <div class="card-header color-primary-4">
+            <i class="mdi mdi-refresh" style="right: 20px;position: absolute;cursor: pointer;" @click="clickRefresh"></i>
             探头状态显示
         </div>
         <div ref="contentPane" class="card-content-table">
@@ -9,37 +10,37 @@
                 <tbody>
                     <tr>
                         <td class="table-td">就地</td>
-                        <td class="table-td">{{getValue('1_00001')}}</td>
+                        <td class="table-td width-value">{{getValue('1_00001')}}</td>
                         <td class="table-td">远程</td>
-                        <td class="table-td">{{getValue('1_00002')}}</td>
+                        <td class="table-td width-value">{{getValue('1_00002')}}</td>
                         <td class="table-td">吹扫风压力</td>
-                        <td class="table-td">{{getValue('4_40001')}}</td>
+                        <td class="table-td width-value">{{getValue('4_40001')}}</td>
                         <td class="table-td">冷却风压力</td>
-                        <td class="table-td">{{getValue('4_40002')}}</td>
+                        <td class="table-td width-value">{{getValue('4_40002')}}</td>
                         <td class="table-td">炉膛压力(DCS)</td>
-                        <td class="table-td">{{getValue('-')}}</td>
+                        <td class="table-td width-value">{{getValue('-')}}</td>
                     </tr>
                     <tr>
                         <td class="table-td">A镜头温度</td>
                         <td class="table-td">{{getValue('4_40003')}}</td>
                         <td class="table-td">A探头内部温度(RodinQ)</td>
-                        <td class="table-td">{{getValue('-')}}</td>
+                        <td class="table-td">{{getValue('5_40013')}}</td>
                         <td class="table-td">A探头进到位</td>
-                        <td class="table-td">{{getValue('1_00003')}}</td>
-                        <td class="table-td">A探头退到位</td>
                         <td class="table-td">{{getValue('1_00004')}}</td>
-                        <td class="table-td">--</td>
-                        <td class="table-td">--</td>
+                        <td class="table-td">A探头退到位</td>
+                        <td class="table-td">{{getValue('1_00005')}}</td>
+                        <td class="table-td"> </td>
+                        <td class="table-td"> </td>
                     </tr>
                     <tr>
                         <td class="table-td">B镜头温度</td>
                         <td class="table-td">{{getValue('4_40004')}}</td>
                         <td class="table-td">B探头内部温度(RodinQ)</td>
-                        <td class="table-td">{{getValue('-')}}</td>
+                        <td class="table-td">{{getValue('5_40083')}}</td>
                         <td class="table-td">B探头进到位</td>
-                        <td class="table-td">{{getValue('1_00005')}}</td>
-                        <td class="table-td">B探头退到位</td>
                         <td class="table-td">{{getValue('1_00006')}}</td>
+                        <td class="table-td">B探头退到位</td>
+                        <td class="table-td">{{getValue('1_00007')}}</td>
                         <td class="table-td"> </td>
                         <td class="table-td"> </td>
                     </tr>
@@ -51,6 +52,9 @@
 </template>
 
 <style scoped lang="less">
+.width-value {
+  width: 5%;
+}
 </style>
 
 <script>  
@@ -64,9 +68,18 @@ export default {
     },
     mounted() {
         let _this = this;
-        // setInterval(this.refresh, 1000);
+        this.clickRefresh();
     },
     methods: {
+        clickRefresh() {
+            // this.refresh();
+            if (this.refreshInterval) {
+                clearInterval(this.refreshInterval);
+                this.refreshInterval = null;
+            } else {
+                this.refreshInterval = setInterval(this.refresh, 1000);
+            } 
+        },
         getValue(name) {
             let v = this.dataMap[name];
             if (v == undefined) {
@@ -97,6 +110,7 @@ export default {
 
 
             }).catch(function (err) {
+                _this.$stateMem.commit("setServerTimestamp", 0);
                 console.error(err);
                 // reject(err);
             });

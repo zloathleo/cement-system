@@ -1,27 +1,70 @@
 {
-    "config_mode": true,
+    "config_mode": false,
     "fetch_server_host": "localhost",
-    "fetch_server_port": "8081",
-    "point_scheme": {
-        "4_40001": {
-            "desc": "吹扫风压力",
-            "range_max": "1000",
-            "range_min": "0"
+    "fetch_server_port": "8088",
+    "dashboard_roundchart": [
+        {
+            "pn": "5_40019",
+            "name": "区域1"
         },
-        "4_40002": {
-            "desc": "冷却风压力",
-            "range_max": "1000",
-            "range_min": "0"
+        {
+            "pn": "5_40033",
+            "name": "区域2"
         },
-        "4_40003": {
-            "desc": "A镜头温度",
-            "range_max": "200",
-            "range_min": "0"
+        {
+            "pn": "5_40047",
+            "name": "区域3"
         },
-        "4_40004": {
-            "desc": "B镜头温度",
-            "range_max": "200",
-            "range_min": "0"
+        {
+            "pn": "5_40061",
+            "name": "区域4"
         }
+    ],
+    "dashboard_linechart": {
+        "yAxis": [
+            {
+                "name": "区域温度",
+                "type": "value",
+                "scale": true,
+                "splitNumber": 12,
+                "min": 900,
+                "max": 1500
+            },
+            {
+                "name": "探头温度",
+                "type": "value",
+                "scale": true,
+                "splitNumber": 12,
+                "min": 10,
+                "max": 70
+            }
+        ],
+        "series": [
+            {
+                "pn": "5_40019",
+                "name": "区域1",
+                "yAxisIndex": 0
+            },
+            {
+                "pn": "5_40033",
+                "name": "区域2",
+                "yAxisIndex": 0
+            },
+            {
+                "pn": "5_40047",
+                "name": "区域3",
+                "yAxisIndex": 0
+            },
+            {
+                "pn": "5_40061",
+                "name": "区域4",
+                "yAxisIndex": 0
+            },
+            {
+                "pn": "4_40003",
+                "name": "探头温度",
+                "yAxisIndex": 1
+            }
+        ]
     }
 }

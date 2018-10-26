@@ -153,6 +153,11 @@ module.exports = {
     new VueLoaderPlugin(),
 
     new CopyWebpackPlugin([{
+      from: utils.resolve('src/assets/js'),
+      to: utils.resolve('public/js')
+    }]),
+
+    new CopyWebpackPlugin([{
       from: utils.resolve('src/assets/html'),
       to: utils.resolve('public')
     }]),

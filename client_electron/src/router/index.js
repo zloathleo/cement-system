@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import globalvar from '../common/globalvar'
 
-Vue.use(Router); 
+Vue.use(Router);
 
 export default new Router({
   routes: [
@@ -15,6 +15,11 @@ export default new Router({
       path: '/',
       component: resolve => require(['../components/framework/Root.vue'], resolve),
       children: [
+        {
+          name: 'init',
+          path: '/init',
+          component: resolve => require(['../components/init/Content.vue'], resolve),
+        },
         {
           name: 'testconfig',
           path: '/testconfig',
@@ -29,6 +34,11 @@ export default new Router({
           name: 'tpcontrol',
           path: '/tpcontrol',
           component: resolve => require(['../components/tpcontrol/Content.vue'], resolve),
+        },
+        {
+          name: 'trend',
+          path: '/trend',
+          component: resolve => require(['../components/trend/Content.vue'], resolve),
         },
         {
           name: 'alarm',

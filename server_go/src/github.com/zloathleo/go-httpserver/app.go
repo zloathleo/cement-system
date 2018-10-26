@@ -4,26 +4,42 @@ import (
 	"github.com/gin-contrib/gzip"
 	"github.com/gin-gonic/gin"
 	"github.com/zloathleo/go-httpserver/context"
-	"log"
 	"net/http"
 	"time"
+	"fmt"
+	"github.com/zloathleo/go-httpserver/common/logger"
+	"github.com/zloathleo/go-httpserver/common/config"
+	"github.com/zloathleo/go-httpserver/das"
 )
 
 func main() {
-	log.Println("server is starting...")
+	logger.Init()
+	config.Init()
+	logger.Printf("%v is starting ...",config.AppConfig.App.Name)
+	das.Init()
+
+	gin.DisableConsoleColor()
 	gin.SetMode(gin.ReleaseMode)
-	router := gin.Default()
+	gin.DefaultWriter = logger.GetOutput()
+
+	router := gin.New()
+	// Recovery middleware recovers from any panics and writes a 500 if there was one.
+	router.Use(gin.Recovery())
+
 	router.Use(gzip.Gzip(gzip.DefaultCompression))
 	router.Static("/public", "./public")
 	context.Init(router)
 
-	log.Println("server start at port 8088.")
+
+	addr := fmt.Sprintf(":%d", config.AppConfig.App.Port)
 	s := &http.Server{
-		Addr:           ":8088",
+		Addr:           addr ,
 		Handler:        router,
 		ReadTimeout:    30 * time.Second,
 		WriteTimeout:   30 * time.Second,
 		MaxHeaderBytes: 1 << 20,
 	}
+	logger.Printf("%v http will listen at %d.",config.AppConfig.App.Name,config.AppConfig.App.Port)
 	s.ListenAndServe()
+
 }

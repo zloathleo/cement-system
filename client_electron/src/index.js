@@ -45,6 +45,7 @@ try {
     console.log("electron.main.config ok:", _appConfig);
     globalvar.configMode = _appConfig.config_mode;
     globalvar.dashboard_roundchart = _appConfig.dashboard_roundchart;
+    globalvar.dashboard_radar = _appConfig.dashboard_radar;
     globalvar.dashboard_linechart = _appConfig.dashboard_linechart;
     globalvar.fetchServerHostURL = "http://" + _appConfig.fetch_server_host + ":" + _appConfig.fetch_server_port;
 
@@ -60,12 +61,13 @@ try {
 }
 
 function initUI() {
-  setTimeout(function () { 
-    if (globalvar.configMode) {
-      router.replace({ name: "testconfig" });
-    } else {
-      router.replace({ name: "dashboard" });
-    }
-  }, 100);
+  setTimeout(function () {
+    router.replace({ name: "tpcontrol" });
+    // if (globalvar.configMode) {
+    //   router.replace({ name: "testconfig" });
+    // } else {
+    //   router.replace({ name: "dashboard" });
+    // }
+  }, 1000);
 }
 

@@ -1,11 +1,8 @@
 <template>
-    <div ref="roundChart" class="round-chart" />
+    <div ref="roundChart" />
 </template> 
  
 <style scoped lang="less">
-.round-chart {
-  margin: auto;
-}
 </style>
 
 <script>  
@@ -36,59 +33,46 @@ export default {
         this._init_chart();
 
         let _this = this;
-        this.chart.on('finished', function () {
-            let chartDom = _this.$refs.roundChart;
-            chartDom.parentNode.style.margin = 'auto';
+        this.$globalEventHub.$on("data-roundchart", function (value) {
+            _this.refreshData(value);
         });
+
+        let chartDom = this.$refs.roundChart;
+        chartDom.firstChild.style.setProperty('margin', 'auto', 'important');
 
     },
     destroyed() {
-        if (this.timer) {
-            clearInterval(this.timer);
-        }
+        this.$globalEventHub.$off("data-roundchart");
     },
     methods: {
         refreshData(_data) {
             let _dataArray = this.chart.getOption().series[0].data;
             let _chartConfig = this.$globalvar.dashboard_roundchart;
 
+            let v1 = _data[_chartConfig[0].pn];
+            let v2 = _data[_chartConfig[1].pn];
+            let v3 = _data[_chartConfig[2].pn];
+            let v4 = _data[_chartConfig[3].pn];
+            if (v1 == null && v2 == null && v3 == null && v4 == null) {
+                v1 = 0;
+                v2 = 0;
+                v3 = 0;
+                v4 = 0;
+            }
+
+            let serie = this.chart.getOption().series[0];
+            serie.data = [
+                { value: v1, pn: _chartConfig[0].pn, name: _dataArray[0].name },
+                { value: v2, pn: _chartConfig[1].pn, name: _dataArray[1].name },
+                { value: v3, pn: _chartConfig[2].pn, name: _dataArray[2].name },
+                { value: v4, pn: _chartConfig[3].pn, name: _dataArray[3].name }
+            ];
             this.chart.setOption({
-                series: [
-                    {
-                        name: '温度场区域温度',
-                        type: 'pie',
-                        radius: ['50%', '70%'],
-                        avoidLabelOverlap: false,
-                        data: [
-                            { value: _data[_chartConfig[0].pn], pn: _chartConfig[0].pn, name: _dataArray[0].name },
-                            { value: _data[_chartConfig[1].pn], pn: _chartConfig[1].pn, name: _dataArray[1].name },
-                            { value: _data[_chartConfig[2].pn], pn: _chartConfig[2].pn, name: _dataArray[2].name },
-                            { value: _data[_chartConfig[3].pn], pn: _chartConfig[3].pn, name: _dataArray[3].name }
-                        ],
-                        itemStyle: {
-                            emphasis: {
-                                shadowBlur: 10,
-                                shadowOffsetX: 0,
-                                shadowColor: 'rgba(0, 0, 0, 0.5)'
-                            }
-                        }
-                    }
-                ]
+                series: [serie]
             });
 
-        },
+ 
 
-        initTimer() {
-            let _this = this;
-            this.timer = setInterval(function () {
-                let _url = '/realtime?points=' + _this.pointNames + '';
-                _this.$myaxios.get(_url, { timeout: 1000, 'hiddenLoading': true }).then(function (response) {
-                    let _data = response.data;
-                    _this.refreshData(_data)
-                }).catch(function (err) {
-                    console.error(err);
-                });
-            }, 3000);
         },
 
         _init_chart() {
@@ -100,7 +84,6 @@ export default {
                 height: _width / 1.334
             });
             this.chart.setOption(this.chartOption);
-            this.initTimer()
         },
 
         getOption() {
@@ -118,6 +101,7 @@ export default {
                     {
                         name: '温度场区域温度',
                         type: 'pie',
+                        startAngle: 45,
                         radius: ['50%', '70%'],
                         avoidLabelOverlap: false,
                         label: {

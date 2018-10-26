@@ -7,7 +7,7 @@
             Temperature pattern
           </div>
           <div class="card-content">
-            <RoundChart />
+            <RoundChartPanel />
           </div>
         </div>
       </div>
@@ -49,18 +49,15 @@
 </template>
 
 <style scoped lang="less">
-.card-content {
-  // padding: 0rem;
-}
 </style>
 
 <script> 
-import RoundChart from './RoundChart.vue';
+import RoundChartPanel from './RoundChartPanel.vue';
 import RadarChart from './RadarChart.vue';
 import LineChart from './LineChart.vue';
 export default {
   components: {
-    RoundChart, RadarChart, LineChart
+    RoundChartPanel, RadarChart, LineChart
   },
   data() {
     return {

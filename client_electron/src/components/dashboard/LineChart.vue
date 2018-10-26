@@ -33,6 +33,8 @@ export default {
     },
     mounted() {
         this._init_chart();
+        let chartDom = this.$refs.lineChart;
+        chartDom.firstChild.style.setProperty('margin', 'auto', 'important');
 
     },
     destroyed() {
@@ -55,11 +57,14 @@ export default {
         },
         refreshRealtime(_data) {
             let _this = this;
-            let _chartOptioin = _this.chart.getOption();
+            let _chartOptioin = this.chart.getOption(); 
+
             _chartOptioin.series.forEach(seriesItem => {
+                let pn = seriesItem.pn;
+                let newValue = _data[pn];
                 var data0 = seriesItem.data;
                 data0.shift();
-                data0.push(Math.round(Math.random() * 1000));
+                data0.push(newValue);
             });
 
 
@@ -104,10 +109,10 @@ export default {
                 xAxis: {
                     type: 'category',
                     boundaryGap: false,
-                    axisLabel: { 
-                        interval: 4, 
+                    axisLabel: {
+                        interval: 4,
                         rotate: 60
-                    }, 
+                    },
                     data: _json.xAxis
                 },
                 series: config_series
@@ -135,7 +140,7 @@ export default {
                 title: {
                     show: false
                 },
-                animation:false,
+                animation: false,
                 legend: {
                     data: legendNameArray,
                 },

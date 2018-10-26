@@ -2,6 +2,10 @@
     "config_mode": false,
     "fetch_server_host": "localhost",
     "fetch_server_port": "8088",
+    "dashboard_radar":{
+        "min": 900,
+        "max": 1500
+    },
     "dashboard_roundchart": [
         {
             "pn": "5_40019",

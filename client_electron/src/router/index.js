@@ -7,19 +7,9 @@ Vue.use(Router);
 export default new Router({
   routes: [
     {
-      name: 'landing',
-      path: '/',
-      component: resolve => require(['../components/framework/InitLoading.vue'], resolve),
-    },
-    {
       path: '/',
       component: resolve => require(['../components/framework/Root.vue'], resolve),
       children: [
-        {
-          name: 'init',
-          path: '/init',
-          component: resolve => require(['../components/init/Content.vue'], resolve),
-        },
         {
           name: 'testconfig',
           path: '/testconfig',

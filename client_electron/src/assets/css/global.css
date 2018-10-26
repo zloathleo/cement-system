@@ -6,8 +6,13 @@ body {
     font-family: sans-serif;
 }
 
+th,
+td {
+    text-align: center !important;
+}
+
 a:hover {
-    color: #333 !important; 
+    color: #333 !important;
 }
 
 .color-primary {

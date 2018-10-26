@@ -6,6 +6,7 @@ export default {
     configMode: false,
 
     dashboard_roundchart: undefined,
+    dashboard_radar: undefined,
     //dashboard linchart 添加对照点
     dashboard_linechart: undefined,
 

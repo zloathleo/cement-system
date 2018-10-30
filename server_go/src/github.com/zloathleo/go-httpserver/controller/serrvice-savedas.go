@@ -27,6 +27,7 @@ var (
 	autoBackCheckCount = 0
 )
 
+//保存到缓存和历史数据库
 func serviceSaveDas(pushDas *PushDas) {
 
 	rows := pushDas.Rows

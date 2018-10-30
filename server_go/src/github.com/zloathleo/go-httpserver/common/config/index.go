@@ -41,6 +41,7 @@ var AppConfig = struct {
 		Name         string `default:"center-server"`
 		Port         uint   `required:"true" default:"8088"`
 		AutoLogic    bool   `default:false`
+		IgnoreValueZero     bool   `default:false`
 		LogLevel     string `default:"W"`
 	}
 	TempvisionDas struct {

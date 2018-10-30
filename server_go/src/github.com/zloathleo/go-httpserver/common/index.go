@@ -14,6 +14,13 @@ func Init() {
 
 //值转换
 func TranslatePointValue(key string, value float64) float64 {
+	if config.AppConfig.App.IgnoreValueZero {
+		if math.Abs(value-0) < 0.00001 {
+			//如果设置忽略0值
+			return math.NaN()
+		}
+	}
+
 	conversion := config.PointValueMap[key]
 	if conversion != nil {
 		parameters := make(map[string]interface{}, 8)

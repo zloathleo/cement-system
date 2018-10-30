@@ -3,6 +3,7 @@ package memcache
 import (
 	. "github.com/zloathleo/go-httpserver/dstruct"
 	"github.com/zloathleo/go-httpserver/utils"
+	"math"
 )
 
 var (
@@ -28,8 +29,10 @@ func RefreshPointList() {
 func SaveRealtimeData(pushDas *PushDas) {
 	rows := pushDas.Rows
 	for _, item := range rows {
-		saveValue(item)
-		PointCacheMap[item.PointName] = item.Value
+		if !math.IsNaN(item.Value){
+			saveValue(item)
+			PointCacheMap[item.PointName] = item.Value
+		}
 	}
 }
 

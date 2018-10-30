@@ -13,6 +13,7 @@ import (
 	"gopkg.in/Knetic/govaluate.v2"
 	"github.com/zloathleo/go-httpserver/common/logger"
 	"net/http"
+	"github.com/zloathleo/go-httpserver/systemalarm"
 )
 
 var (
@@ -62,6 +63,8 @@ func serviceSendCmd(dataJson string) (*http.Response, error) {
 		err = checkPostCommand(&pushDas)
 		if err == nil {
 			return cmdPostDDI(dataJson)
+		}else{
+			systemalarm.AddSystemAlarm(err)
 		}
 	}
 	return nil, err

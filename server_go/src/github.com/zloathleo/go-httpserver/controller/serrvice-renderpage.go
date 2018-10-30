@@ -7,6 +7,7 @@ import (
 	"fmt"
 	. "github.com/zloathleo/go-httpserver/dstruct"
 	"github.com/zloathleo/go-httpserver/memcache"
+	"github.com/zloathleo/go-httpserver/systemalarm"
 )
 
 func serviceRenderPageDashboard() *PushDas {
@@ -48,4 +49,8 @@ func addData(rows *[]*Das, key string) {
 	if exist {
 		*rows = append(*rows, &Das{key, value, 0})
 	}
+}
+
+func serviceRenderPageAlarm() []*Alarm {
+	return systemalarm.GetSystemAlarm()
 }

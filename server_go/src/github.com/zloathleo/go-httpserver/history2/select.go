@@ -9,6 +9,7 @@ import (
 	"strconv"
 	"strings"
 	"time"
+	"github.com/zloathleo/go-httpserver/utils"
 )
 
 func getSelectPointsString(points []string) string {
@@ -32,9 +33,9 @@ func SelectSingleTableHistoryData(points []string, begin time.Time, tableIndex i
 		logger.Debug("request point is empty.")
 		return
 	}
-	currentDB := getAnyConnect(begin)
-	if currentDB == nil {
-		logger.Warnf("can not search table-[%d] data.", tableIndex)
+	currentConnect := getAnyConnect(begin)
+	if currentConnect == nil {
+		logger.Infof("can find connect %s.", utils.GetDayString(begin))
 		return
 	}
 	tableName := findHisTableByIndex(tableIndex)
@@ -46,9 +47,9 @@ func SelectSingleTableHistoryData(points []string, begin time.Time, tableIndex i
 	var readLock = todayDbLock
 	var readDb = todayDb
 	//如果不是查询今天
-	if currentDB.name != todayDbName {
-		readLock = currentDB.dbLock
-		readDb = currentDB.db
+	if currentConnect.name != todayDbName {
+		readLock = currentConnect.dbLock
+		readDb = currentConnect.db
 	}
 	readLock.RLock()
 	rows, err := readDb.Query(selectSql, 1)

@@ -1,12 +1,14 @@
 app:
     name: cement_center_server
     port: 8088
-    loglevel: D
+    loglevel: I
+    #是否触发自动逻辑
     autologic: false
+    #是否忽略0值
+    ignorevaluezero: true
 
 #TempVision指令下发目标地址配置
-tempvision-das:
-    disable: false
+tempvision-das: 
     host: localhost
     port: 8080
 

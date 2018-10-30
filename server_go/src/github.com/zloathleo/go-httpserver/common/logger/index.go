@@ -5,6 +5,9 @@ import (
 	"io"
 	"log"
 	"os"
+	"runtime"
+	"strconv"
+	"fmt"
 )
 
 var (
@@ -21,7 +24,7 @@ var logLevel int
 func Init() {
 	mode := "dev"
 	if mode == "dev" {
-		log.SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
+		log.SetFlags(log.Ldate | log.Ltime)
 	} else {
 		log.SetFlags(log.Ldate | log.Ltime)
 	}
@@ -97,13 +100,18 @@ func Infof(format string, v ...interface{}) {
 
 func Warnf(format string, v ...interface{}) {
 	if logLevel < 30 {
-		log.Printf("[W] "+format, v...)
+		//log.Printf("[W] "+format, v...)
+		_, file, line, _ := runtime.Caller(1)
+		log.Printf("[W] "+file+" at "+strconv.Itoa(line)+". "+format, v...)
 	}
 }
 
 func Warnln(v ...interface{}) {
 	if logLevel < 30 {
-		log.Println(appendSlice(W, v)...)
+		_, file, _, _ := runtime.Caller(1)
+
+		_, file, line, _ := runtime.Caller(1)
+		log.Println("[W] "+file+" at "+strconv.Itoa(line)+". ", fmt.Sprint(v...))
 	}
 }
 

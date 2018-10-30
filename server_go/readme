@@ -7,9 +7,14 @@ go build -o safefire-cement-server.exe app.go
 1000        24小时                4.3G
 
 
+2018/10/26
+功能
+1.页面web接口
+2.统计最大最小平均
+
 2018/10/23
 功能
-1.logger分级
+1.logger分级  fixed
 2.历史数据存储 fixed 每小时bug
 3.页面web接口
 

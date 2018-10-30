@@ -37,7 +37,7 @@ func createAnyConnect(t time.Time) *SQLite3FileConnect {
 	if dbConnect != nil {
 		return dbConnect
 	} else {
-		connect := newSQLite3FileConnect(fileName,true)
+		connect := newSQLite3FileConnect(fileName, true)
 		allDbMap[fileName] = connect
 		return connect
 	}
@@ -65,8 +65,6 @@ func getTodayConnect() *SQLite3FileConnect {
 	return getAnyConnect(time.Now())
 }
 
-
-
 func getDBPath(fileName string) string {
 	return "data/data-" + fileName + ".db"
 }
@@ -81,10 +79,10 @@ type SQLite3FileConnect struct {
 func newSQLite3FileConnect(fileName string, create bool) *SQLite3FileConnect {
 	dbFilePathName := getDBPath(fileName)
 
-	logger.Infof("will new db file %s ", dbFilePathName)
+	logger.Infof("newSQLite3FileConnect %s ", dbFilePathName)
 	connect := &SQLite3FileConnect{name: fileName, dbFilePathName: dbFilePathName}
 	if utils.IsFileExist(dbFilePathName) {
-		logger.Infof("db file %s is exist.", dbFilePathName)
+		logger.Infof("newSQLite3FileConnect %s is exist.", dbFilePathName)
 		var err error
 		connect.db, err = connect.connectGivenFileDb()
 		if err != nil || connect.db == nil {
@@ -96,7 +94,7 @@ func newSQLite3FileConnect(fileName string, create bool) *SQLite3FileConnect {
 	} else if create {
 		_, err := os.Create(dbFilePathName)
 		if err == nil {
-			logger.Infof("create db file %s success.", dbFilePathName)
+			logger.Infof("newSQLite3FileConnect create %s file success.", dbFilePathName)
 			connect.db, err = connect.initGivenFileDb()
 			if err != nil || connect.db == nil {
 				logger.Errorf("init given file db %v err.", dbFilePathName)
@@ -106,7 +104,7 @@ func newSQLite3FileConnect(fileName string, create bool) *SQLite3FileConnect {
 			}
 		} else {
 			systemalarm.AddSystemAlarm(err)
-			logger.Errorf("create db file %s err %v.", dbFilePathName, err)
+			logger.Errorf("newSQLite3FileConnect create %s file is err %v.", dbFilePathName, err)
 		}
 	}
 	return nil

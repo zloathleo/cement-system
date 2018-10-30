@@ -1,6 +1,0 @@
- #UI上dashboard配置
-dashboard:
-    #趋势测点
-    linechartpoints:  4_40002,4_40003
-    #默认dur
-    defaultdur: 3600

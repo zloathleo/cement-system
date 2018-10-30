@@ -31,26 +31,29 @@ export default {
         });
     },
 
-    toastError: function (errdesc, err) {
+    toastError: function (_vue, errdesc, err) {
         let _message = errdesc;
         if (err !== undefined) {
             _message += " - " + this.parseError(err)
         }
 
-        this.GlobalEventHub.$emit("toast.show", {
-            type: "info",
-            message: _message
-        });
+        _vue.$toast.open({
+            duration: 5000,
+            message: _message,
+            position: 'is-bottom',
+            type: 'is-danger'
+        })
     },
 
-    // toastSuccess: function (_vue, _message) {
-    //     _vue.$toast.open({
-    //         queue: false,
-    //         message: _message,
-    //         position: 'is-bottom',
-    //         type: 'is-success'
-    //     });
-    // },
+    toastSuccess: function (_vue, _message) {
+        _vue.$toast.open({
+            queue: false,
+            duration: 5000,
+            message: _message,
+            position: 'is-bottom',
+            type: 'is-success'
+        });
+    },
 
     // toastError: function (_vue, errdesc, error) {
     //     let _message = errdesc;
@@ -68,7 +71,7 @@ export default {
 
     parseError: function (error) {
         if (error && error.response && error.response.data) {
-            return error.response.data.message;
+            return error.response.data.message || error.response.data.msg;
         } else {
             return error;
         }

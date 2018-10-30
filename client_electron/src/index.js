@@ -44,6 +44,7 @@ try {
   ipcRenderer.once("electron.main.config", function (_evt, _appConfig) {
     console.log("electron.main.config ok:", _appConfig);
     globalvar.configMode = _appConfig.config_mode;
+    globalvar.trned_points = _appConfig.trned_points;
     globalvar.dashboard_roundchart = _appConfig.dashboard_roundchart;
     globalvar.dashboard_radar = _appConfig.dashboard_radar;
     globalvar.dashboard_linechart = _appConfig.dashboard_linechart;
@@ -62,7 +63,9 @@ try {
 
 function initUI() {
   setTimeout(function () {
-    router.replace({ name: "tpcontrol" });
+    // router.replace({ name: "tpcontrol" });
+    router.replace({ name: "dashboard" });
+    stateMem.commit("setUiTitle", "dashboard");
     // if (globalvar.configMode) {
     //   router.replace({ name: "testconfig" });
     // } else {

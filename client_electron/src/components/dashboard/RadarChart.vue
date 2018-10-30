@@ -69,7 +69,7 @@ export default {
 
             this.chart = echarts.init(chartDom, undefined, {
                 width: _width,
-                height: _width / 1.334
+                height: 250
             });
 
             this.chart.setOption(this.chartOption);

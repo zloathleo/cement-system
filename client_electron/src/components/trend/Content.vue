@@ -1,11 +1,7 @@
 <template>
-  <div class="card card-bg-transparent">
-    <div class="card-header color-primary-4">
-      历史趋势查询
-    </div>
-    <div class="card-content">
-      <div ref="lineChart" />
-    </div>
+  <div>
+    <SelectPanel/>
+    <div ref="lineChart" />
   </div>
 </template> 
  
@@ -13,34 +9,65 @@
 </style>
 
 <script>   
+import SelectPanel from './SelectPanel.vue';
 export default {
   components: {
-
+    SelectPanel
   },
   props: {
 
   },
   data() {
+
     return {
+      pointNames: [],
       chart: undefined,
       chartOption: this.getOption(),
+      dur: 600
     }
   },
   mounted() {
     this._init_chart();
+    let chartDom = this.$refs.lineChart;
+    chartDom.firstChild.style.setProperty('margin', 'auto', 'important');
+
     let _this = this;
+    this.$globalEventHub.$on("trend-params-change", function (value) {
+      _this.setTrendparams(value);
+    });
+
+  },
+  destroyed() {
+    this.$globalEventHub.$off("trend-params-change");
   },
   methods: {
+
+    setTrendparams(_params) {
+      let pnNameArray = [];
+      if (_params.selectedPointA == "rodinarea") {
+        let _linechartConfig = this.$globalvar.dashboard_linechart;
+        pnNameArray = _linechartConfig.series.map(function (_item) {
+          return _item.pn;
+        });
+        pnNameArray[4] = _params.selectedPointB;
+      } else {
+        pnNameArray[0] = _params.selectedPointA;
+        pnNameArray[1] = _params.selectedPointB;
+      }
+      console.log(pnNameArray);
+      this.dur = _params.dur;
+      this.pointNames = pnNameArray;
+      this.initChartData();
+    },
+
     initChartData() {
-
       let _this = this;
-      let _appendPoint = this.$globalvar.dashboard_linechart_point;
 
+      let pnstr = this.pointNames.join(",");
 
-      let _url = '/his-chart?points=5_40019,5_40033,5_40047,5_40061,' + _appendPoint.name + '&&dur=604800&to=1540432800';
+      let _url = '/his-chart?points=' + pnstr + '&&dur=' + this.dur;
       _this.$myaxios.get(_url, { timeout: 2000, 'hiddenLoading': true }).then(function (response) {
         let _data = response.data;
-
         _this.renderJson(_data);
       }).catch(function (err) {
         console.error(err);
@@ -48,82 +75,38 @@ export default {
     },
 
     renderJson(_json) {
-      let _appendPoint = this.$globalvar.dashboard_linechart_point;
       let _serise = _json.series;
+      let _this = this;
+      let config_series = this.pointNames.map(function (pn) {
+        return {
+          name: _this.$globalvar.trned_points[pn],
+          pn: pn,
+          yAxisIndex: 0,
+          type: 'line',
+          smooth: true,
+          // yAxisIndex: _item.yAxisIndex,
+          data: _serise[pn]
+        }
+      });
 
-      console.info("_appendPoint.label:" + _appendPoint.label, _appendPoint.name, _appendPoint.min, _appendPoint.max);
+      let legendNameArray = this.pointNames.map(function (pn) {
+        return _this.$globalvar.trned_points[pn];
+      });
 
       this.chart.setOption({
-
         legend: {
-          data: ['区域1', '区域2', '区域3', '区域4', _appendPoint.label],
+          data: legendNameArray,
         },
-
         xAxis: {
           type: 'category',
           boundaryGap: false,
+          axisLabel: {
+            interval: parseInt(_json.xAxis.length / 50),
+            rotate: 60
+          },
           data: _json.xAxis
         },
-
-        yAxis: [
-          {
-            name: '区域温度',
-            type: 'value',
-            scale: true,
-            splitNumber: 8,
-            min: 800,
-            max: 1600
-          }, {
-            name: _appendPoint.label,
-            type: 'value',
-            scale: true,
-            splitNumber: 8,
-            min: _appendPoint.min,
-            max: _appendPoint.max
-          }
-        ],
-
-        series: [
-          {
-            name: '区域1',
-            yAxisIndex: 0,
-            type: 'line',
-            smooth: true,
-            data: _serise["5_40019"]
-          },
-
-          {
-            name: '区域2',
-            yAxisIndex: 0,
-            type: 'line',
-            smooth: true,
-            data: _serise["5_40033"]
-          },
-
-          {
-            name: '区域3',
-            yAxisIndex: 0,
-            type: 'line',
-            smooth: true,
-            data: _serise["5_40047"]
-          },
-
-          {
-            name: '区域4',
-            yAxisIndex: 0,
-            type: 'line',
-            smooth: true,
-            data: _serise["5_40061"]
-          },
-
-          {
-            name: _appendPoint.label,
-            yAxisIndex: 1,
-            type: 'line',
-            smooth: true,
-            data: _serise[_appendPoint.name]
-          }
-        ]
+        series: config_series
       });
     },
 
@@ -136,20 +119,23 @@ export default {
         height: _height
       });
       this.chart.setOption(this.chartOption);
-      this.initChartData();
+      // this.initChartData();
     },
 
     getOption() {
+      let _linechartConfig = this.$globalvar.dashboard_linechart;
+
       return {
         title: {
           show: false
         },
+        animation: false,
         tooltip: {
           trigger: 'axis'
         },
         grid: {
-          left: '1%',
-          right: '1%',
+          left: '3%',
+          right: '3%',
           containLabel: true
         },
         xAxis: {
@@ -157,11 +143,8 @@ export default {
           boundaryGap: false,
         },
         yAxis: {
-          type: 'value',
-          min: 1000,
-          max: 1400
+          type: 'value'
         }
-
       }
     }
   }

@@ -32,9 +32,10 @@ export default {
     },
     computed: { 
         serverTimestamp: function () { 
-            let t = this.$stateMem.state.serverTimestamp;
-            console.log(t);
-            return t == 0 ? 'connect fault!!': this.$globalvar.parseDateTime(t);
+            return '';
+            // let t = this.$stateMem.state.serverTimestamp;
+            // console.log(t);
+            // return t == 0 ? 'connect fault!!': this.$globalvar.parseDateTime(t);
         }
     }
 }

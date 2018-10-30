@@ -110,8 +110,8 @@ export default {
                     type: 'category',
                     boundaryGap: false,
                     axisLabel: {
-                        interval: 4,
-                        rotate: 60
+                        interval: 16,
+                        rotate: 30
                     },
                     data: _json.xAxis
                 },
@@ -121,8 +121,8 @@ export default {
 
         _init_chart() {
             let chartDom = this.$refs.lineChart;
-            let _width = document.body.clientWidth - 130;
-            let _height = document.body.clientHeight * 0.5;
+            let _width = document.body.clientWidth / 2 - 130;
+            let _height = _width * 0.5;
             this.chart = echarts.init(chartDom, undefined, {
                 width: _width,
                 height: _height

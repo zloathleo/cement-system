@@ -3,37 +3,45 @@ import globalvar from './globalvar';
 
 const store = new Vuex.Store({
     state: {
-        user: undefined,
-        dashboardRouteName: undefined,
-        currentRouteName: undefined,
-        menuItems: undefined,
         serverTimestamp: 0,
-    },
-    mutations: {
-        setServerTimestamp: function (state, value) { 
-            state.serverTimestamp = value;
+
+        uititle: "",
+
+        //趋势A
+        trendA: "",
+        //趋势B
+        trendB: "",
+        //进退
+        jintui: {
+
         },
 
-        initUserUI: function (state, value) {
-            state.user = value;
-            if (value === undefined) {
-                state.dashboardRouteName = undefined;
-                state.menuItems = undefined;
-            } else {
-                if (value.type == "admin") {
-                    state.dashboardRouteName = "group";
-                    state.currentRouteName = "group";
-                    state.menuItems = globalvar.adminMenuItems;
-                } else if (value.type == "operator") {
-                    state.dashboardRouteName = "device";
-                    state.currentRouteName = "device";
-                    state.menuItems = globalvar.operatorMenuItems;
-                }
+        isShowDraw:false,
+    },
+    mutations: {
+        setUiTitle: function (state, value) {
+            if (value == "dashboard") {
+                state.uititle = "温度场总览";
+            } else if (value == "tpcontrol") {
+                state.uititle = "温度场设备";
+            } else if (value == "trend") {
+                state.uititle = "趋势分析";
+            } else if (value == "alarm") {
+                state.uititle = "系统报警";
             }
         },
-        refreshUserUI: function (state, value) {
-            this.commit("initUserUI", value.user);
-            state.currentRouteName = value.routeName;
+        setTrendPoint: function (state, value) {
+            state.trendA = value.a;
+            state.trendB = value.b;
+        },
+        setIsShowDraw: function (state, value) {
+            state.isShowDraw = value; 
+        },
+        setServerTimestamp: function (state, value) {
+            state.serverTimestamp = value;
+        },
+        setJinTui: function (state, value) {
+            state.jintui = value;
         },
     },
 });

@@ -3,36 +3,36 @@
     <div>
         <div v-show="isShowModal" class="modal-background" @click="isShowModal = false"></div>
         <transition name="slide-fade">
-            <div v-show="isShowDraw" class="drawer-content color-primary-4">
+            <div v-show="$stateMem.state.isShowDraw" class="drawer-content color-primary-4">
                 <a class="dropdown-item color-text-white" @click="clickMenu('dashboard')">
                     <span class="icon exicon">
                         <img class="icon-image" src="assets/img/dashboard.png">
                     </span>
-                    <h3> Burner<br> Overview </h3>
+                    <h3> 温度场<br> 总览 </h3>
                 </a>
                 <a class="dropdown-item color-text-white" @click="clickMenu('tpcontrol')">
                     <span class="icon exicon">
                         <img class="icon-image" src="assets/img/control.png">
                     </span>
-                    <h3> Device<br> control </h3>
+                    <h3> 温度场<br> 设备 </h3>
                 </a>
-                 <a class="dropdown-item color-text-white" @click="clickMenu('trend')">
+                <a class="dropdown-item color-text-white" @click="clickMenu('trend')">
                     <span class="icon exicon">
                         <img class="icon-image" src="assets/img/trend.png">
                     </span>
-                    <h3> Trend<br> Analysis </h3>
+                    <h3> 趋势<br> 分析 </h3>
                 </a>
-                <a class="dropdown-item color-text-white" @click="clickMenu('settings')">
+                <!-- <a class="dropdown-item color-text-white" @click="clickMenu('settings')">
                     <span class="icon exicon">
                         <img class="icon-image" src="assets/img/settings.png">
                     </span>
                     <h3> Setting </h3>
-                </a>
+                </a> -->
                 <a class="dropdown-item color-text-white" @click="clickMenu('alarm')">
                     <span class="icon exicon">
                         <img class="icon-image" src="assets/img/alarm.png">
                     </span>
-                    <h3> Alarms </h3>
+                    <h3> 系统<br> 报警 </h3>
                 </a>
             </div>
         </transition>
@@ -93,10 +93,9 @@ a:hover {
 export default {
     data() {
         return {
-            isShowDraw: false,
             isShowModal: false,
             selectedKey: undefined,
-            appName: "后台管理",
+            appName: "水泥温度场",
             items: undefined,
         }
     },
@@ -105,16 +104,16 @@ export default {
         this.selectedKey = this.$stateMem.state.currentRouteName;
         let _this = this;
         this.$globalEventHub.$on("showDrawer", function () {
-            _this.isShowDraw = !_this.isShowDraw;
+            _this.$stateMem.commit("setIsShowDraw", !_this.$stateMem.state.isShowDraw);
         });
     },
 
     methods: {
         clickMenu(key) {
             this.selectedKey = key;
-            this.isShowDraw = false;
+            this.$stateMem.commit("setIsShowDraw", false);
             this.$router.push({ name: key });
-            // this.$globalEventHub.$emit("appLoading", true);
+            this.$stateMem.commit("setUiTitle", key);
         },
     }
 }

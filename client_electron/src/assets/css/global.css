@@ -9,6 +9,7 @@ body {
 th,
 td {
     text-align: center !important;
+    padding: 0.5rem !important;
 }
 
 a:hover {
@@ -57,9 +58,9 @@ a:hover {
 }
 
 .table-td {
-    border: 1px solid #000 !important;
-    padding: 1rem !important;
-    font-weight: bold;
+    border: 1px solid #000 !important; 
+    font-size: 0.9rem;
+    /* font-weight: bold; */
 }
 
 .card-header {
@@ -142,6 +143,8 @@ a:hover {
 table td,
 table th {
     vertical-align: middle !important;
+    text-align: left !important;
+    font-weight: bold;
 }
 
 .text-center {

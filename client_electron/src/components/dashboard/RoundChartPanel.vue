@@ -5,7 +5,7 @@
     </div>
 
     <div class="column is-half">
-      <table class="table is-narrow" style="background-color: rgba(255, 255, 255, 0);    font-size: 0.8rem;">
+      <table class="table is-narrow" style="background-color: rgba(255, 255, 255, 0);font-size: 0.8rem;">
         <thead>
           <tr>
             <th>温度场区域</th>

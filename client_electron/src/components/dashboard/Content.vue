@@ -1,58 +1,92 @@
 <template>
   <div>
     <div class="columns">
-      <div class="column is-half">
+      <div class="column is-5">
         <div class="card card-bg-transparent">
           <div class="card-header color-primary-4">
-            Temperature pattern
+            温度场分区温度环状图
           </div>
           <div class="card-content">
-            <RoundChart />
+            <RoundChartPanel />
           </div>
         </div>
       </div>
 
-      <div class="column is-half">
+      <div class="column is-5">
         <div class="card card-bg-transparent">
           <div class="card-header color-primary-4">
-            Temperature Radar
+            温度场分区温度雷达图
           </div>
           <div class="card-content">
             <RadarChart />
           </div>
         </div>
       </div>
-    </div>
 
-    <div class="columns">
-      <div class="column">
+      <div class="column is-2">
         <div class="card card-bg-transparent">
           <div class="card-header color-primary-4">
-            Temperature History
+            实时系统测点
           </div>
           <div class="card-content">
-            <LineChart />
+            <DcsValuePanel />
           </div>
         </div>
       </div>
     </div>
+
+    <div class="columns">
+      <div class="column is-6">
+        <div class="card card-bg-transparent" style="margin-bottom: 1rem;">
+          <div class="card-header color-primary-4">
+            <div style="flex-grow: 1;color: #fff;">
+              温度场分区温度历史曲线图
+            </div>
+            <a class="card-header-icon" aria-label="more options">
+              <span class="icon">
+                <i class="mdi mdi-chart-line color-text-white"></i>
+              </span>
+            </a>
+          </div>
+
+          <div class="card-content" style="    padding-bottom: 0px;">
+            <LineChart />
+          </div>
+        </div>
+      </div>
+
+      <div class="column is-6">
+        <div class="card card-bg-transparent" style="margin-bottom: 1rem;">
+          <div class="card-header color-primary-4">
+            <div style="flex-grow: 1;color: #fff;">
+              燃烧器调整参数
+            </div>
+          </div>
+
+          <div class="card-content">
+            <GaugePanel/>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 
 </template>
 
 <style scoped lang="less">
-.card-content {
-  // padding: 0rem;
-}
 </style>
 
 <script> 
-import RoundChart from './RoundChart.vue';
+
+import DcsValuePanel from './DcsValuePanel.vue';
+import RoundChartPanel from './RoundChartPanel.vue';
 import RadarChart from './RadarChart.vue';
 import LineChart from './LineChart.vue';
+import GaugePanel from './GaugePanel.vue';
 export default {
   components: {
-    RoundChart, RadarChart, LineChart
+    DcsValuePanel, RoundChartPanel, RadarChart, LineChart, GaugePanel
   },
   data() {
     return {

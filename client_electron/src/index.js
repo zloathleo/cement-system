@@ -44,7 +44,15 @@ try {
   ipcRenderer.once("electron.main.config", function (_evt, _appConfig) {
     console.log("electron.main.config ok:", _appConfig);
     globalvar.configMode = _appConfig.config_mode;
-    globalvar.fetchServerHostURL = "http://" + _appConfig.fetchServerHostURL + ":" + _appConfig.fetch_server_port;
+    globalvar.trned_points = _appConfig.trned_points;
+    globalvar.dashboard_roundchart = _appConfig.dashboard_roundchart;
+    globalvar.dashboard_radar = _appConfig.dashboard_radar;
+    globalvar.dashboard_linechart = _appConfig.dashboard_linechart;
+    globalvar.fetchServerHostURL = "http://" + _appConfig.fetch_server_host + ":" + _appConfig.fetch_server_port;
+
+    console.log("读取配置成功,初始化myaxios:", globalvar.fetchServerHostURL);
+    console.log("configMode:", globalvar.configMode);
+    myaxios.defaults.baseURL = globalvar.fetchServerHostURL;
 
     initUI();
   });
@@ -55,14 +63,14 @@ try {
 
 function initUI() {
   setTimeout(function () {
-    console.log("读取配置成功,初始化myaxios:", globalvar.fetchServerHostURL);
-    console.log("configMode:", globalvar.configMode);
-    myaxios.defaults.baseURL = globalvar.fetchServerHostURL;
-    if (globalvar.configMode) {
-      router.replace({ name: "testconfig" });
-    } else {
-      router.replace({ name: "dashboard" });
-    }
-  }, 100);
+    // router.replace({ name: "tpcontrol" });
+    router.replace({ name: "dashboard" });
+    stateMem.commit("setUiTitle", "dashboard");
+    // if (globalvar.configMode) {
+    //   router.replace({ name: "testconfig" });
+    // } else {
+    //   router.replace({ name: "dashboard" });
+    // }
+  }, 1000);
 }
 

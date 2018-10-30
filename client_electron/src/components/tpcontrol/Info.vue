@@ -2,47 +2,53 @@
 
     <div class="card card-bg-transparent" style="box-shadow: none;padding-bottom: 2rem;">
         <div class="card-header color-primary-4">
-            <i class="mdi mdi-refresh" style="right: 20px;position: absolute;cursor: pointer;" @click="clickRefresh"></i>
             探头状态显示
         </div>
         <div ref="contentPane" class="card-content-table">
             <table class="table is-bordered  is-fullwidth card-bg-transparent">
                 <tbody>
                     <tr>
-                        <td class="table-td">就地</td>
-                        <td class="table-td width-value">{{getValue('1_00001')}}</td>
-                        <td class="table-td">远程</td>
-                        <td class="table-td width-value">{{getValue('1_00002')}}</td>
+                        <td class="table-td" style="width:25%">就地</td>
+                        <td class="table-td" style="width:25%">{{getBooleanValue('1_00001')}}</td>
+                        <td class="table-td" style="width:25%">远程</td>
+                        <td class="table-td" style="width:25%">{{getBooleanValue('1_00002')}}</td>
+                    </tr>
+                    <tr>
                         <td class="table-td">吹扫风压力</td>
                         <td class="table-td width-value">{{getValue('4_40001')}}</td>
                         <td class="table-td">冷却风压力</td>
                         <td class="table-td width-value">{{getValue('4_40002')}}</td>
+
+                    </tr>
+                    <tr>
                         <td class="table-td">炉膛压力(DCS)</td>
-                        <td class="table-td width-value">{{getValue('-')}}</td>
+                        <td class="table-td width-value">{{getValue('I_AI5701P01')}}</td>
+                        <td class="table-td"> </td>
+                        <td class="table-td"> </td>
                     </tr>
                     <tr>
                         <td class="table-td">A镜头温度</td>
                         <td class="table-td">{{getValue('4_40003')}}</td>
                         <td class="table-td">A探头内部温度(RodinQ)</td>
                         <td class="table-td">{{getValue('5_40013')}}</td>
+                    </tr>
+                    <tr>
                         <td class="table-td">A探头进到位</td>
-                        <td class="table-td">{{getValue('1_00004')}}</td>
+                        <td class="table-td">{{getBooleanValue('1_00004')}}</td>
                         <td class="table-td">A探头退到位</td>
-                        <td class="table-td">{{getValue('1_00005')}}</td>
-                        <td class="table-td"> </td>
-                        <td class="table-td"> </td>
+                        <td class="table-td">{{getBooleanValue('1_00005')}}</td>
                     </tr>
                     <tr>
                         <td class="table-td">B镜头温度</td>
                         <td class="table-td">{{getValue('4_40004')}}</td>
                         <td class="table-td">B探头内部温度(RodinQ)</td>
                         <td class="table-td">{{getValue('5_40083')}}</td>
+                    </tr>
+                    <tr>
                         <td class="table-td">B探头进到位</td>
-                        <td class="table-td">{{getValue('1_00006')}}</td>
+                        <td class="table-td">{{getBooleanValue('1_00006')}}</td>
                         <td class="table-td">B探头退到位</td>
-                        <td class="table-td">{{getValue('1_00007')}}</td>
-                        <td class="table-td"> </td>
-                        <td class="table-td"> </td>
+                        <td class="table-td">{{getBooleanValue('1_00007')}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -68,17 +74,28 @@ export default {
     },
     mounted() {
         let _this = this;
-        this.clickRefresh();
+        this.initTimer();
+    },
+    destroyed() {
+        if (this.timer) {
+            clearInterval(this.timer);
+        }
     },
     methods: {
-        clickRefresh() {
-            // this.refresh();
-            if (this.refreshInterval) {
-                clearInterval(this.refreshInterval);
-                this.refreshInterval = null;
+        initTimer() {
+            this.timer = setInterval(this.refresh, 1000);
+        },
+        getBooleanValue(name) {
+            let v = this.dataMap[name];
+            if (v == undefined) {
+                return "--"
             } else {
-                this.refreshInterval = setInterval(this.refresh, 1000);
-            } 
+                if (parseInt(v) === 1) {
+                    return "True"
+                } else {
+                    return "False"
+                }
+            }
         },
         getValue(name) {
             let v = this.dataMap[name];
@@ -106,8 +123,11 @@ export default {
                 _this.dataMap = _map;
                 // console.log("dataMap:", _this.dataMap);
 
-                _this.$stateMem.commit("setServerTimestamp", _data.timestamp);
-
+                // _this.$stateMem.commit("setServerTimestamp", _data.timestamp);
+                _this.$stateMem.commit("setJinTui", {
+                    "1_00004": _this.dataMap["1_00004"],
+                    "1_00005": _this.dataMap["1_00005"]
+                });
 
             }).catch(function (err) {
                 _this.$stateMem.commit("setServerTimestamp", 0);

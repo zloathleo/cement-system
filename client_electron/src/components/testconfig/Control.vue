@@ -71,7 +71,7 @@ export default {
         return {
         }
     },
-    mounted() { 
+    mounted() {
 
     },
     methods: {
@@ -100,6 +100,8 @@ export default {
             }).catch(function (err) {
                 console.error(err);
                 // reject(err);
+                // _this.$globalvar.toastError(_this, "command connetc err ", err);
+                  _this.$globalvar.toastError(_this, "下发命令异常-", err);
             });
 
         },

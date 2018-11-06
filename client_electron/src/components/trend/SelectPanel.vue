@@ -5,11 +5,14 @@
             <b-field label="对比测点1">
                 <b-select placeholder="对比测点1" rounded v-model="selectedPointA">
                     <option value="rodinarea">温度场温度(4)</option>
-                    <option value="Nox">Nox浓度 Nox</option>
-                    <option value="I_AI5703T01">一次风压力 I_AI5703T01</option>
-                    <option value="I_AI5701T01">二次风温度 I_AI5701T01</option>
-                    <option value="I_AI5101A01I1">预热器出口氧含量 I_AI5101A01I1</option>
-                    <option value="I_AI7509ARI1">窑头喂煤量 I_AI7509ARI1</option>
+                    <option value="5_40019">温度场区域1</option>
+                    <option value="5_40033">温度场区域2</option>
+                    <option value="5_40047">温度场区域3</option>
+                    <option value="5_40061">温度场区域4</option>
+
+                    <option v-for="(item, index) in $globalvar.dashboard_dcs_points" :value="item.pn">
+                        {{item.name}}
+                    </option>
 
                 </b-select>
             </b-field>
@@ -17,12 +20,9 @@
         <div>
             <b-field label="对比测点2">
                 <b-select placeholder="对比测点2" rounded v-model="selectedPointB">
-                    <option value="Nox">Nox浓度 Nox</option>
-                    <option value="I_AI5703T01">一次风压力 I_AI5703T01</option>
-                    <option value="I_AI5701T01">二次风温度 I_AI5701T01</option>
-                    <option value="I_AI5101A01I1">预热器出口氧含量 I_AI5101A01I1</option>
-                    <option value="I_AI7509ARI1">窑头喂煤量 I_AI7509ARI1</option>
-                    <option value="4_40003">探头温度 4_40003</option>
+                    <option v-for="(item, index) in $globalvar.dashboard_dcs_points" :value="item.pn">
+                        {{item.name}}
+                    </option>
                 </b-select>
             </b-field>
         </div>
@@ -55,6 +55,7 @@
                     <option value="3600">1小时</option>
                     <option value="28800">8小时</option>
                     <option value="86400">24小时</option>
+                    <option value="604800">7天</option>
                 </b-select>
             </b-field>
         </div>
@@ -90,8 +91,8 @@ export default {
         }
     },
     methods: {
-        clickSelect() {   
-            this.$globalEventHub.$emit("trend-params-change", { 
+        clickSelect() {
+            this.$globalEventHub.$emit("trend-params-change", {
                 dur: this.dur,
                 selectedPointA: this.selectedPointA,
                 selectedPointB: this.selectedPointB,

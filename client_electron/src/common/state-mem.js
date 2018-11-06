@@ -5,7 +5,11 @@ const store = new Vuex.Store({
     state: {
         serverTimestamp: 0,
 
+        //标题
         uititle: "",
+
+        //实时值map
+        realtimePointValueMap: {},
 
         //趋势A
         trendA: "",
@@ -16,7 +20,7 @@ const store = new Vuex.Store({
 
         },
 
-        isShowDraw:false,
+        isShowDraw: false,
     },
     mutations: {
         setUiTitle: function (state, value) {
@@ -35,8 +39,12 @@ const store = new Vuex.Store({
             state.trendB = value.b;
         },
         setIsShowDraw: function (state, value) {
-            state.isShowDraw = value; 
+            state.isShowDraw = value;
         },
+        setRealtimePointValueMap: function (state, value) {
+            state.realtimePointValueMap = value;
+        },
+
         setServerTimestamp: function (state, value) {
             state.serverTimestamp = value;
         },

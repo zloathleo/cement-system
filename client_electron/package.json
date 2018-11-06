@@ -9,7 +9,7 @@
     "copyright": "Copyright © 2018 SafeFire",
     "directories": {
       "output": "release"
-    },
+    }, 
     "files": [
       "./**/*"
     ],

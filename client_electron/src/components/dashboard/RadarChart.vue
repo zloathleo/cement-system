@@ -52,15 +52,18 @@ export default {
         },
         initTimer() {
             let _this = this;
+            let _dashboard_radar = this.$globalvar.dashboard_radar;
+            let _url = '/his-chart?type=radar&points=' + _this.pointNames + '&dur=' + _dashboard_radar.dur + '&interval=' + +_dashboard_radar.interval;
+
             this.timer = setInterval(function () {
-                let _url = '/radar-chart?points=' + _this.pointNames + '&dur=1800';
-                _this.$myaxios.get(_url, { timeout: 3000, 'hiddenLoading': true }).then(function (response) {
+                _this.$myaxios.get(_url, { timeout: 4500, 'hiddenLoading': true }).then(function (response) {
                     let _data = response.data;
-                    _this.refreshData(_data)
+                    _this.refreshData(_data);
                 }).catch(function (err) {
                     console.error(err);
                 });
             }, 5000);
+
         },
 
         _init_chart() {
@@ -73,11 +76,23 @@ export default {
             });
 
             this.chart.setOption(this.chartOption);
-            this.initTimer()
+            this.requestData();
+        },
+
+        requestData() {
+            let _this = this;
+            let _dashboard_radar = this.$globalvar.dashboard_radar;
+            let _url = '/his-chart?type=radar&points=' + _this.pointNames + '&dur=' + _dashboard_radar.dur + '&interval=' + +_dashboard_radar.interval;
+            _this.$myaxios.get(_url, { timeout: 10000, 'hiddenLoading': true }).then(function (response) {
+                let _data = response.data;
+                _this.refreshData(_data);
+                _this.initTimer();
+            }).catch(function (err) {
+                console.error(err);
+            });
         },
 
         getOption() {
-            let _dashboard_roundchart = this.$globalvar.dashboard_roundchart;
             let _dashboard_radar = this.$globalvar.dashboard_radar;
             var lineStyle = {
                 normal: {
@@ -93,23 +108,30 @@ export default {
                     show: false
                 },
                 radar: {
-                    indicator: [
-                        { name: '区域1', min: _dashboard_radar.min, max: _dashboard_radar.max },
-                        { name: '区域2', min: _dashboard_radar.min, max: _dashboard_radar.max },
-                        { name: '区域3', min: _dashboard_radar.min, max: _dashboard_radar.max },
-                        { name: '区域4', min: _dashboard_radar.min, max: _dashboard_radar.max },
-                    ],
-                    shape: 'circle',
-                    splitNumber: 5,
                     name: {
-
+                        textStyle: {
+                            color: '#000',
+                            // backgroundColor: '#999',
+                            fontSize: 12,
+                            fontWeight: 'bold',
+                            borderRadius: 3,
+                            padding: [3, 5]
+                        }
                     },
+                    indicator: [
+                        { name: '区域1', min: _dashboard_radar.min },
+                        { name: '区域2', min: _dashboard_radar.min },
+                        { name: '区域3', min: _dashboard_radar.min },
+                        { name: '区域4', min: _dashboard_radar.min },
+                    ],
+                    // shape: 'circle',
+                    splitNumber: 5,
                     splitLine: {
 
                     },
-                    splitArea: {
-                        show: false
-                    },
+                    // splitArea: {
+                    //     show: false
+                    // },
                     axisLine: {
 
                     }
@@ -123,7 +145,9 @@ export default {
                         symbol: 'none',
                         itemStyle: {
                             normal: {
-                                color: '#F9713C'
+                                color: '#F9713C',
+                                width: 1,
+                                opacity: 0.5
                             }
                         },
                         areaStyle: {

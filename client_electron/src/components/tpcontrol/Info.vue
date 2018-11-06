@@ -21,15 +21,16 @@
 
                     </tr>
                     <tr>
-                        <td class="table-td">炉膛压力(DCS)</td>
+                        <td class="table-td">窑头罩负压</td>
                         <td class="table-td width-value">{{getValue('I_AI5701P01')}}</td>
-                        <td class="table-td"> </td>
-                        <td class="table-td"> </td>
+                        <td class="table-td">高温风机运行信号</td>
+                        <td class="table-td width-value">{{getValue('DI5401MA')}}</td>
                     </tr>
+
                     <tr>
                         <td class="table-td">A镜头温度</td>
                         <td class="table-td">{{getValue('4_40003')}}</td>
-                        <td class="table-td">A探头内部温度(RodinQ)</td>
+                        <td class="table-td">A探头内部温度</td>
                         <td class="table-td">{{getValue('5_40013')}}</td>
                     </tr>
                     <tr>
@@ -41,7 +42,7 @@
                     <tr>
                         <td class="table-td">B镜头温度</td>
                         <td class="table-td">{{getValue('4_40004')}}</td>
-                        <td class="table-td">B探头内部温度(RodinQ)</td>
+                        <td class="table-td">B探头内部温度</td>
                         <td class="table-td">{{getValue('5_40083')}}</td>
                     </tr>
                     <tr>
@@ -65,76 +66,109 @@
 
 <script>  
 export default {
-    components: {
-    },
+
     data() {
         return {
-            dataMap: {},
+            dataMap: [],
         }
     },
-    mounted() {
-        let _this = this;
-        this.initTimer();
-    },
-    destroyed() {
-        if (this.timer) {
-            clearInterval(this.timer);
+
+    computed: {
+        realtimePointValueMap() {
+            return this.$stateMem.state.realtimePointValueMap;
         }
     },
+    watch: {
+        realtimePointValueMap: function (old, newd) {
+            this.dataMap = newd;
+        }
+    },
+
     methods: {
-        initTimer() {
-            this.timer = setInterval(this.refresh, 1000);
-        },
         getBooleanValue(name) {
             let v = this.dataMap[name];
+            // let v = this.$stateMem.state.realtimePointValueMap[name];
             if (v == undefined) {
                 return "--"
             } else {
-                if (parseInt(v) === 1) {
-                    return "True"
+
+                if (parseInt(v) == 1) {
+                    return "是"
                 } else {
-                    return "False"
+                    return "否"
                 }
             }
         },
         getValue(name) {
             let v = this.dataMap[name];
+            // console.log(v);
+            // let v = this.$stateMem.state.realtimePointValueMap[name];
             if (v == undefined) {
                 return "--"
             } else {
                 if (Number.isInteger(v)) {
                     return v;
                 } else {
-                    return v.value.toFixed(2);
+                    return v.toFixed(2);
                 }
             }
         },
-        refresh() {
-            let _this = this;
-            _this.$myaxios.get('/data', { timeout: 1000, 'hiddenLoading': true }).then(function (response) {
-                let _data = response.data;
-
-                let _rows = _data.rows;
-                let _map = [];
-                _rows.forEach(function (item) {
-                    _map[item.name] = item;
-                });
-
-                _this.dataMap = _map;
-                // console.log("dataMap:", _this.dataMap);
-
-                // _this.$stateMem.commit("setServerTimestamp", _data.timestamp);
-                _this.$stateMem.commit("setJinTui", {
-                    "1_00004": _this.dataMap["1_00004"],
-                    "1_00005": _this.dataMap["1_00005"]
-                });
-
-            }).catch(function (err) {
-                _this.$stateMem.commit("setServerTimestamp", 0);
-                console.error(err);
-                // reject(err);
-            });
-        }
     }
+
+    // methods: {
+    // getBooleanValue(name) {
+    //     // let v = this.dataMap[name]; 
+    //     let v = this.$stateMem.state.realtimePointValueMap[name];
+    //     if (v == undefined) {
+    //         return "--"
+    //     } else {
+
+    //         if (parseInt(v.value) == 1) {
+    //             return "True"
+    //         } else {
+    //             return "False"
+    //         }
+    //     }
+    // },
+    // getValue(name) {
+    //     // let v = this.dataMap[name];
+    //     let v = this.$stateMem.state.realtimePointValueMap[name];
+    //     if (v == undefined) {
+    //         return "--"
+    //     } else {
+    //         if (Number.isInteger(v.value)) {
+    //             return v.value;
+    //         } else {
+    //             return v.value.toFixed(2);
+    //         }
+    //     }
+    // },
+    // refresh() {
+    //     let _this = this;
+    //     _this.$myaxios.get('/data', { timeout: 1000, 'hiddenLoading': true }).then(function (response) {
+    //         let _data = response.data;
+
+    //         let _rows = _data.rows;
+    //         let _map = [];
+    //         _rows.forEach(function (item) {
+    //             _map[item.name] = item;
+    //         });
+
+    //         _this.dataMap = _map;
+    //         // console.log("dataMap:", _this.dataMap);
+
+    //         // _this.$stateMem.commit("setServerTimestamp", _data.timestamp);
+    //         _this.$stateMem.commit("setJinTui", {
+    //             "1_00004": _this.dataMap["1_00004"],
+    //             "1_00005": _this.dataMap["1_00005"]
+    //         });
+
+    //     }).catch(function (err) {
+    //         _this.$stateMem.commit("setServerTimestamp", 0);
+    //         console.error(err);
+    //         // reject(err);
+    //     });
+    // }
+    // }
 }
 </script>

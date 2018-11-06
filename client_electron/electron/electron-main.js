@@ -57,6 +57,7 @@ function initIpc() {
 
 //初始化快捷键
 function initShortcut() {
+    // mainWindow.webContents.openDevTools();
     globalShortcut.register("Ctrl+F5", function () {
         mainWindow.reload();
     });

@@ -5,18 +5,9 @@
 <style scoped lang="less">
 </style>
 
-<script>  
-// var echarts = require('echarts/lib/echarts');
-// // 引入chart
-// require('echarts/lib/chart/line');
-// // 引入提示框和标题组件 
-// require('echarts/lib/component/title');
-// require('echarts/lib/component/tooltip');
+<script>   
 export default {
     components: {
-
-    },
-    props: {
 
     },
     data() {
@@ -26,9 +17,23 @@ export default {
         });
 
         return {
+            initUI: true,
             pointNames: pnNameArray.join(","),
             chart: undefined,
             chartOption: this.getOption(_linechartConfig),
+        }
+    },
+    computed: {
+        realtimePointValueMap() {
+            return this.$stateMem.state.realtimePointValueMap;
+        }
+    },
+    watch: {
+        realtimePointValueMap: function (old, newd) {
+            if (!this.initUI) {
+                this.refreshRealtime(newd);
+            }
+            this.initUI = false;
         }
     },
     mounted() {
@@ -37,27 +42,10 @@ export default {
         chartDom.firstChild.style.setProperty('margin', 'auto', 'important');
 
     },
-    destroyed() {
-        if (this.timer) {
-            clearInterval(this.timer);
-        }
-    },
     methods: {
-        initTimer() {
-            let _this = this;
-            this.timer = setInterval(function () {
-                let _url = '/realtime?points=' + _this.pointNames + '&dur=180';
-                _this.$myaxios.get(_url, { timeout: 1000, 'hiddenLoading': true }).then(function (response) {
-                    let _data = response.data;
-                    _this.refreshRealtime(_data)
-                }).catch(function (err) {
-                    console.error(err);
-                });
-            }, 1000);
-        },
         refreshRealtime(_data) {
             let _this = this;
-            let _chartOptioin = this.chart.getOption(); 
+            let _chartOptioin = this.chart.getOption();
 
             _chartOptioin.series.forEach(seriesItem => {
                 let pn = seriesItem.pn;
@@ -79,11 +67,10 @@ export default {
         },
         initChartData() {
             let _this = this;
-            let _url = '/his-chart?points=' + this.pointNames + '&&dur=180';
-            _this.$myaxios.get(_url, { timeout: 2000, 'hiddenLoading': true }).then(function (response) {
+            let _url = '/his-chart?points=' + this.pointNames + '&&dur=600';
+            _this.$myaxios.get(_url, { timeout: 10000, 'hiddenLoading': true }).then(function (response) {
                 let _data = response.data;
                 _this.renderJson(_data);
-                _this.initTimer();
             }).catch(function (err) {
                 console.error(err);
             });
@@ -110,7 +97,7 @@ export default {
                     type: 'category',
                     boundaryGap: false,
                     axisLabel: {
-                        interval: 16,
+                        interval: 59,
                         rotate: 30
                     },
                     data: _json.xAxis
@@ -121,7 +108,7 @@ export default {
 
         _init_chart() {
             let chartDom = this.$refs.lineChart;
-            let _width = document.body.clientWidth / 2 - 130;
+            let _width = document.body.clientWidth / 2 - 250;
             let _height = _width * 0.5;
             this.chart = echarts.init(chartDom, undefined, {
                 width: _width,

@@ -5,6 +5,12 @@ export default {
     //配置模式 直接查看数据和控制信号
     configMode: false,
 
+    //dashboard ui关联实时值
+    points_dashboard: [],
+    //control ui 关联实时值
+    points_control: [],
+
+
     dashboard_roundchart: undefined,
     dashboard_radar: undefined,
     //dashboard linchart 添加对照点

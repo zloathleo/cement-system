@@ -66,6 +66,7 @@ export default {
     data() {
         return {
             isAppLoading: false,//是否loading状态
+            timer: undefined,//实时定时器
         }
     },
     beforeMount() {
@@ -73,8 +74,39 @@ export default {
         this.$globalEventHub.$on("appLoading", function (value) {
             _this.isAppLoading = value;
         });
+        this.initTimer();
+    },
+    destroyed() {
+        if (this.timer) {
+            clearInterval(this.timer);
+        }
     },
     methods: {
+        initTimer() {
+            this.timer = setInterval(this.requestRealtimeData, 1000);
+        },
+        requestRealtimeData() {
+            let routerName = this.$router.history.current.name;
+            let points = "";
+            if (routerName == "dashboard") {
+                points = this.$globalvar.points_dashboard.join(",");
+            } else if (routerName == "tpcontrol") {
+                points = this.$globalvar.points_control.join(",");
+            } else {
+                return;
+            }
+            if (!this.isAppLoading) {
+                let _this = this;
+                _this.$myaxios.get('/realtime?points=' + points, { timeout: 1000, 'hiddenLoading': true }).then(function (response) {
+                    let _data = response.data;
+                    _this.$stateMem.commit("setRealtimePointValueMap", _data);
+                }).catch(function (err) {
+                    // _this.$stateMem.commit("setServerTimestamp", 0);
+                    console.error(err);
+                    // reject(err);
+                });
+            }
+        }
     }
 }
 </script>

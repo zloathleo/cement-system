@@ -5,44 +5,32 @@
 <style scoped lang="less">
 </style>
 
-<script>  
-// var echarts = require('echarts/lib/echarts');
-// // 引入chart
-// require('echarts/lib/chart/pie');
-// // 引入提示框和标题组件 
-// require('echarts/lib/component/title');
-// require('echarts/lib/component/tooltip');
+<script>   
 export default {
     components: {
     },
-    props: {
-
-    },
     data() {
-        let _linechartConfig = this.$globalvar.dashboard_roundchart;
-        let pnNameArray = _linechartConfig.map(function (_item) {
-            return _item.pn;
-        });
         return {
-            pointNames: pnNameArray.join(","),
             chart: undefined,
             chartOption: this.getOption(),
         }
     },
-    mounted() {
-        this._init_chart();
 
-        let _this = this;
-        this.$globalEventHub.$on("data-roundchart", function (value) {
-            _this.refreshData(value);
-        });
-
-        let chartDom = this.$refs.roundChart;
-        chartDom.firstChild.style.setProperty('margin', 'auto', 'important');
-
+    computed: {
+        realtimePointValueMap() {
+            return this.$stateMem.state.realtimePointValueMap;
+        }
     },
-    destroyed() {
-        this.$globalEventHub.$off("data-roundchart");
+    watch: {
+        realtimePointValueMap: function (old, newd) {
+            this.refreshData(newd);
+        }
+    },
+
+    mounted() {
+        this._init_chart(); 
+        let chartDom = this.$refs.roundChart;
+        chartDom.firstChild.style.setProperty('margin', 'auto', 'important'); 
     },
     methods: {
         refreshData(_data) {
@@ -70,9 +58,6 @@ export default {
             this.chart.setOption({
                 series: [serie]
             });
-
- 
-
         },
 
         _init_chart() {

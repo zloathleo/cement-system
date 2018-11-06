@@ -7,25 +7,9 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <th>Nox浓度</th>
-                <td>--</td>
-            </tr>
-            <tr>
-                <th>一次风压力</th>
-                <td>--</td>
-            </tr>
-            <tr>
-                <th>二次风温度</th>
-                <td>--</td>
-            </tr>
-            <tr>
-                <th>预热器出口氧含量</th>
-                <td>--</td>
-            </tr>
-            <tr>
-                <th>窑头喂煤量</th>
-                <td>--</td>
+            <tr v-for="(item, index) in $globalvar.dashboard_dcs_points">
+                <th>{{item.name}}</th>
+                <td>{{$stateMem.state.realtimePointValueMap[item.pn]}}</td>
             </tr>
         </tbody>
     </table>
@@ -37,18 +21,5 @@
 
 <script>  
 export default {
-    components: {
-    },
-    data() {
-
-        return {
-        }
-    },
-    mounted() {
-    },
-    destroyed() {
-    },
-    methods: {
-    }
 }
 </script>

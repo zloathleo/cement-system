@@ -26,7 +26,7 @@ export default {
     methods: {
         _init_chart() {
             let chartDom = this.$refs.gaugeChart;
-            let _width = 260;
+            let _width = 240;
 
             this.chart = echarts.init(chartDom, undefined, {
                 width: _width,

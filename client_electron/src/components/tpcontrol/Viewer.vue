@@ -36,29 +36,28 @@
 
 <script>  
 export default {
-    components: {
-    },
     data() {
-        return { 
+        return {
+            dataMap: [],
         }
     },
     computed: {
+        realtimePointValueMap() {
+            return this.$stateMem.state.realtimePointValueMap;
+        },
         // 计算属性的 getter
         tuiA: function () {
-            return this.$stateMem.state.jintui["1_00004"] != 1
+            return this.dataMap["1_00004"] != 1
         },
         jinA: function () {
-            return this.$stateMem.state.jintui["1_00004"] == 1
+            return this.dataMap["1_00004"] == 1
         }
     },
-    mounted() {
-
+    watch: {
+        realtimePointValueMap: function (old, newd) {
+            this.dataMap = newd;
+        }
     },
-    destroyed() {
 
-    },
-    methods: {
-
-    }
 }
 </script>

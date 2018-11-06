@@ -33,6 +33,11 @@ a:hover {
     color: #fff !important;
 }
 
+.color-action {
+    background-color: #36b3a7 !important;
+    color: #fff !important;
+}
+
 .color-primary-button {
     background-color: #878f92 !important;
     color: #fff !important;

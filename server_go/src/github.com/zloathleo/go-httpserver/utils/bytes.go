@@ -56,7 +56,6 @@ func Float32FromBytes(b []byte) float32 {
 	return math.Float32frombits(bits)
 }
 
-
 func Float64ToBytes(f float64) []byte {
 	bits := math.Float64bits(f)
 	bytes := make([]byte, 8)
@@ -69,9 +68,3 @@ func Float64FromBytes(d []byte) float64 {
 	float := math.Float64frombits(bits)
 	return float
 }
-
-
-
-
-
-

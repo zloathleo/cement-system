@@ -1,23 +1,33 @@
 app:
-    name: center-server
+    name: cement_center_server
     port: 8088
-    autologic: true
+    loglevel: I
+    #是否触发自动逻辑
+    autologic: false
+    #是否忽略0值
+    ignorevaluezero: true
 
-das:
+#TempVision指令下发目标地址配置
+tempvision-das: 
     host: localhost
     port: 8080
 
-point:
+#测点获取值变换
+point-value:
 - name: 4_40001
   #电流4-20 转换成压力0-20
-  #  conversion: (x - 4) * (20 - 0)/(20-4)
+  # conversion: (x - 4) * (20 - 0)/(20-4)
   conversion: 6
 - name: 4_40002
   # 电流4-20 转换成压力0-20
   # conversion: (x - 4) * (20 - 0)/(20-4)
   conversion: 0.2
 
-cmd:
+#指令相关测点合法条件
+cmd-param:
+- name: 1_00002
+  #远程模式==1
+  conversion: x == 1
 - name: 4_40001
   #吹扫风合法值>=5
   conversion: x >= 5
@@ -36,3 +46,19 @@ cmd:
 - name: 5_40083
   #探头B内部温度<=55
   conversion: x <= 55
+
+
+#指令目标逻辑
+cmd-target:
+#探头A进退条件 远程模式1_00002 + 吹扫风压力4_40001 + 冷却风压力4_40002 + A镜头温度4_40003 + A探头内部温度5_40013
+- name: 2_00017
+  conversion: ( x == 0 && valid("1_00002") ) || ( x == 1 && valid("1_00002") && valid("4_40001") && valid("4_40002") && valid("4_40003") && valid("5_40013") )
+#探头A启动条件 远程模式1_00002 A探头内部温度5_40013
+- name: 2_00019
+  conversion: ( x == 0 && valid("1_00002") ) || ( x == 1 && valid("4_40002") && valid("5_40013") )
+#探头B进退条件 远程模式1_00002 + 吹扫风压力4_40001 + 冷却风压力4_40002 + B镜头温度4_40004 + B探头内部温度5_40083
+- name: 2_00018
+  conversion: ( x == 0 && valid("1_00002") ) || ( x == 1 && valid("1_00002") && valid("4_40001") && valid("4_40002") && valid("4_40004") && valid("5_40083") )
+#探头B启动条件 远程模式1_00002 B探头内部温度5_40083
+- name: 2_00020
+  conversion: x == 1 && valid("4_40002") && valid("5_40083")
